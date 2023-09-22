@@ -34,4 +34,7 @@ export default {
   top: 5px;
   left: 5px;
 }
+.inner:hover {
+  background-color: red !important;
+}
 </style>

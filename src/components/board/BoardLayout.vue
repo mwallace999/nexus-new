@@ -1,31 +1,9 @@
 <template>
-  <div>
-  <div class="hex-container">
+  <div class="row-container" v-for="(row, r) in board" :key="`row${r}`">
     <div class="hex-row">
-      <hex-layout v-for="(x, i) in [1, 2, 3]" :key=i hex-color="white" border-color="blue"/>
+      <hex-layout v-for="(hex, h) in row" :key="`hex${h}`" hex-color="white" border-color="blue"/>
     </div>
   </div>
-  <div class="hex-container">
-    <div class="hex-row">
-      <hex-layout v-for="(x, i) in [1, 2, 3, 4]" :key=i hex-color="red" border-color="blue"/>
-    </div>
-  </div>
-  <div class="hex-container">
-    <div class="hex-row">
-      <hex-layout v-for="(x, i) in [1, 2, 3, 4, 5]" :key=i hex-color="red" border-color="blue"/>
-    </div>
-  </div>
-  <div class="hex-container">
-    <div class="hex-row">
-      <hex-layout v-for="(x, i) in [1, 2, 3, 4]" :key=i hex-color="red" border-color="blue"/>
-    </div>
-  </div>
-  <div class="hex-container">
-    <div class="hex-row">
-      <hex-layout v-for="(x, i) in [1, 2, 3]" :key=i hex-color="red" border-color="blue"/>
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
@@ -37,6 +15,13 @@ export default {
   },
   data() {
     return {
+      board: [
+        [1, 2, 3],
+        [1, 2, 3, 4],
+        [1, 2, 3, 4, 5],
+        [1, 2, 3, 4],
+        [1, 2, 3]
+      ]
     };
   },
   methods: {
@@ -46,9 +31,9 @@ export default {
 </script>
 
 <style scoped>
-.hex-container {
+.row-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
+  justify-content: center;
   align-items: center;
 }
 .hex-row {
