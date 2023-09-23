@@ -1,7 +1,7 @@
 <template>
   <div class="row-container" v-for="(row, r) in board" :key="`row${r}`">
     <div class="hex-row">
-      <hex-layout v-for="(hex, h) in row" :key="`hex${h}`" hex-color="white" border-color="blue"/>
+      <hex-layout v-for="(hex, h) in row" :key="`hex${r}-${h}`" hex-color="white" border-color="blue"/>
     </div>
   </div>
 </template>

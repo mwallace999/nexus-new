@@ -1,14 +1,21 @@
 <template>
   <div :style="{ backgroundColor: borderColor }" class="hexagon border">
-    <div :style="{ backgroundColor: hexColor }" class="hexagon inner" />
+    <div :style="{ backgroundColor: hexColor }" class="hexagon inner">
+      <token-layout :token-color="'red'" :token-level="2"></token-layout>
+    </div>
   </div>
 </template>
 
 <script>
+import TokenLayout from './TokenLayout.vue'
+
 export default {
   props: {
     hexColor: String,
     borderColor: String
+  },
+  components: {
+    TokenLayout
   },
   data() {
     return {};
@@ -24,15 +31,17 @@ export default {
 .border {
   width: 110px;
   height: 110px;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   
 }
 .inner {
   width: 100px;
   height: 100px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .inner:hover {
   background-color: red !important;
