@@ -1,6 +1,6 @@
 <template>
-  <div class="token" :style="{ background: tokenLevelGradient }">
-    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white'}">
+  <div class="token" :style="{ background: tokenLevelGradient, /* visibility: tokenLevelArray?.length ? 'visibile' : 'hidden' */ }">
+    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', visibility: 'visible'}">
       <h1 :style="{ color: tokenPlayer === 1 ? 'white' : 'black'}">
         {{ this.tokenLevelArray?.length }}
       </h1>
@@ -23,7 +23,7 @@ export default {
     tokenLevelGradient() {
       const gradArray = [];
       for (let i = 0; i < 6; i++) {
-        const levelColor = this.tokenLevelArray?.[i] ?? 'white';
+        const levelColor = this.tokenLevelArray?.[i] ?? 'silver';
         // Styling for each wedge of token
         gradArray.push(`black ${i * 60}deg ${i * 60 + 5}deg, ${levelColor} ${i * 60 + 5}deg ${i * 60 + 60}deg`);
       }
@@ -47,7 +47,7 @@ export default {
   align-items: center;
 }
 .token:hover {
-  box-shadow: 0 0 0px 5px rgb(246, 255, 0); /* Adjust the color and size as needed */
+  box-shadow: 0 0 0px 5px yellow;
 }
 .inner-token {
   --innerTokenSize: 40px;

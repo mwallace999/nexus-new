@@ -2,7 +2,7 @@
   <div class="row-container" v-for="(row, r) in board" :key="`row${r}`">
     <div class="hex-row">
       <hex-layout v-for="(hex, h) in row" :key="`hex${r}-${h}`" 
-        :hex-color=hex.hexColor 
+        :hex-color="hex.hexColor" 
         :hex-border-color="hex.hexBorderColor"
         :token-player="hex.tokenPlayer"
         :token-level-array="hex.tokenLevelArray"
@@ -99,7 +99,8 @@ export default {
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenPlayer: 2
+          tokenPlayer: 2,
+          tokenLevelArray: ['red']
         },
         {
           hexColor: 'red',
