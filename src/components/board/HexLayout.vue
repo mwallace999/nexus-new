@@ -1,11 +1,13 @@
 <template>
-  <div :style="{ backgroundColor: hexBorderColor }" class="hexagon border">
-    <div :style="{ backgroundColor: hexColor }" class="hexagon inner">
-      <token-layout
-        v-if="tokenPlayer"
-        :token-player="tokenPlayer"
-        :token-level-array="tokenLevelArray"
-      />
+  <div :style="{ backgroundColor: 'black' }" class="hexagon outer-border">
+    <div :v-if="hexBorderColor" :style="{ backgroundColor: hexBorderColor }" class="hexagon inner-border">
+      <div :style="{ backgroundColor: hexColor }" class="hexagon inner-hex">
+        <token-layout
+          v-if="tokenPlayer"
+          :token-player="tokenPlayer"
+          :token-level-array="tokenLevelArray"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -34,7 +36,7 @@ export default {
 .hexagon {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
-.border {
+.outer-border {
   width: 100px;
   height: 110px;
   display: flex;
@@ -42,9 +44,17 @@ export default {
   align-items: center;
   
 }
-.inner {
-  width: 90px;
-  height: 100px;
+.inner-border {
+  width: 96px;
+  height: 106px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+.inner-hex {
+  width: 86px;
+  height: 96px;
   display: flex;
   justify-content: center;
   align-items: center;

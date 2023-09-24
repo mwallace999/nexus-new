@@ -1,6 +1,6 @@
 <template>
   <div class="token" :style="{ background: tokenLevelGradient, /* visibility: tokenLevelArray?.length ? 'visibile' : 'hidden' */ }">
-    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', visibility: 'visible'}">
+    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', /*visibility: 'visible'*/ }">
       <h1 :style="{ color: tokenPlayer === 1 ? 'white' : 'black'}">
         {{ this.tokenLevelArray?.length }}
       </h1>
@@ -47,7 +47,7 @@ export default {
   align-items: center;
 }
 .token:hover {
-  box-shadow: 0 0 0px 5px yellow;
+  box-shadow: 0 0 0px 4px yellow;
 }
 .inner-token {
   --innerTokenSize: 40px;
