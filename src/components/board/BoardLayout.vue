@@ -116,7 +116,9 @@ export default {
         },
         {
           hexColor: 'blue',
-          hexBorderColor: 'blue',
+          hexBorderColor: 'black',
+          tokenPlayer: 1,
+          tokenLevelArray: []
         }
       ],
       [

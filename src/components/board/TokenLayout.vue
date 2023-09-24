@@ -1,6 +1,6 @@
 <template>
-  <div class="token" :style="{ background: tokenLevelGradient, /* visibility: tokenLevelArray?.length ? 'visibile' : 'hidden' */ }">
-    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', /*visibility: 'visible'*/ }">
+  <div class="token" :style="{ background: tokenLevelGradient, /* visibility: tokenLevelArray?.length ? 'visibile' : 'hidden' */ borderColor: tokenPlayer === 1 ? 'white' : 'black'}">
+    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', /*visibility: 'visible'*/ borderColor: tokenPlayer === 1 ? 'white' : 'black'}">
       <h1 :style="{ color: tokenPlayer === 1 ? 'white' : 'black'}">
         {{ this.tokenLevelArray?.length }}
       </h1>
@@ -23,9 +23,9 @@ export default {
     tokenLevelGradient() {
       const gradArray = [];
       for (let i = 0; i < 6; i++) {
-        const levelColor = this.tokenLevelArray?.[i] ?? 'silver';
+        const levelColor = this.tokenLevelArray?.[i] || (this.tokenPlayer === 1 ? 'black' : 'white');
         // Styling for each wedge of token
-        gradArray.push(`black ${i * 60}deg ${i * 60 + 5}deg, ${levelColor} ${i * 60 + 5}deg ${i * 60 + 60}deg`);
+        gradArray.push(`${this.tokenPlayer === 1 ? 'white' : 'black'} ${i * 60}deg ${i * 60 + 5}deg, ${levelColor} ${i * 60 + 5}deg ${i * 60 + 60}deg`);
       }
       const returnStr = 'conic-gradient(' + gradArray.join(',') + ')';
       return returnStr;
@@ -58,6 +58,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid black 2px
+  border: solid 2px
 }
 </style>
