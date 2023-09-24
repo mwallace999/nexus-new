@@ -1,7 +1,21 @@
 <template>
-  <div class="token" :style="{ background: tokenLevelGradient, /* visibility: tokenLevelArray?.length ? 'visibile' : 'hidden' */ borderColor: tokenPlayer === 1 ? 'white' : 'black'}">
-    <div class="inner-token" :style="{ backgroundColor: tokenPlayer === 1 ? 'black' : 'white', /*visibility: 'visible'*/ borderColor: tokenPlayer === 1 ? 'white' : 'black'}">
-      <h1 :style="{ color: tokenPlayer === 1 ? 'white' : 'black'}">
+  <div
+    class="token" 
+    :style="{
+      background: tokenLevelGradient,
+      visibility: showLevels,
+      borderColor: playerColor
+    }"
+  >
+    <div
+      class="inner-token"
+      :style="{
+        backgroundColor: playerColorInvert,
+        visibility: 'visible',
+        borderColor: playerColor
+      }"
+    >
+      <h1 :style="{ color: playerColor}">
         {{ this.tokenLevelArray?.length }}
       </h1>
     </div>    
@@ -20,13 +34,19 @@ export default {
     };
   },
   computed: {
+    playerColor() { return this.tokenPlayer === 1 ? 'white' : 'black' },
+    playerColorInvert() { return this.tokenPlayer === 1 ? 'black' : 'white' },
+    showLevels() { return this.tokenLevelArray?.length ? 'visibile' : 'hidden'},
     tokenLevelGradient() {
       const gradArray = [];
       for (let i = 0; i < 6; i++) {
-        const levelColor = this.tokenLevelArray?.[i] || (this.tokenPlayer === 1 ? 'black' : 'white');
+        const levelColor = this.tokenLevelArray?.[i] || this.playerColorInvert;
         // Styling for each wedge of token
-        gradArray.push(`${this.tokenPlayer === 1 ? 'white' : 'black'} ${i * 60}deg ${i * 60 + 5}deg, ${levelColor} ${i * 60 + 5}deg ${i * 60 + 60}deg`);
+        gradArray.push(`${levelColor} ${i * 60}deg ${i * 60 + 55}deg`);
+        // Styling for wedge divider
+        if (this.tokenLevelArray?.[i]) gradArray.push(`${this.playerColor} ${i * 60 + 55}deg ${(i + 1) * 60}deg`)
       }
+      if (this.tokenLevelArray?.length) gradArray.push(`${this.playerColor} 355deg 360deg`)
       const returnStr = 'conic-gradient(' + gradArray.join(',') + ')';
       return returnStr;
     }
@@ -53,11 +73,10 @@ export default {
   --innerTokenSize: 40px;
   width: var(--innerTokenSize);
   height: var(--innerTokenSize);
+  border: solid 2px;
   border-radius: 50%;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 2px
 }
 </style>
