@@ -2,10 +2,9 @@
   <div :style="{ backgroundColor: hexBorderColor }" class="hexagon border">
     <div :style="{ backgroundColor: hexColor }" class="hexagon inner">
       <token-layout
-        :token-color="tokenColor"
-        :token-border-color="tokenBorderColor"
-        :token-level="tokenLevel"
-        :player="player"
+        v-if="tokenPlayer"
+        :token-player="tokenPlayer"
+        :token-level-array="tokenLevelArray"
       />
     </div>
   </div>
@@ -18,9 +17,8 @@ export default {
   props: {
     hexColor: String,
     hexBorderColor: String,
-    tokenColor: String,
-    tokenBorderColor: String,
-    tokenLevel: String
+    tokenLevelArray: Array,
+    tokenPlayer: Number
   },
   components: {
     TokenLayout
@@ -51,7 +49,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.inner:hover {
+/* .inner:hover {
   background-color: red !important;
-}
+} */
 </style>

@@ -4,9 +4,8 @@
       <hex-layout v-for="(hex, h) in row" :key="`hex${r}-${h}`" 
         :hex-color=hex.hexColor 
         :hex-border-color="hex.hexBorderColor"
-        :token-color="hex.tokenColor"
-        :token-border-color="hex.tokenBorderColor"
-        :token-level="hex.tokenLevel"
+        :token-player="hex.tokenPlayer"
+        :token-level-array="hex.tokenLevelArray"
       />
     </div>
   </div>
@@ -30,158 +29,107 @@ export default {
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1,
+          tokenLevelArray: ['red', 'red', 'green']
         },
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 2
+          tokenPlayer: 2,
+          tokenLevelArray: ['red', 'red', 'green']
         },
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1,
+          tokenLevelArray: ['red', 'green', 'green']
         }
       ],
       [
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'black',
-          tokenLevel: '4',
-          player: 1
+          tokenPlayer: 1
         },
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'black',
-          tokenLevel: '1',
-          player: 2
+          tokenPlayer: 2
         },
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'black',
-          tokenLevel: '2',
-          player: 2
+          tokenPlayer: 2
         },
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1
         }
       ],
       [
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1,
+          tokenPlayer: 1,
+          tokenLevelArray: ['red', 'green', 'green', 'blue', 'blue', 'yellow']
         },
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1
         },
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'red',
-          tokenBorderColor: 'black',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1
         },
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1
         },
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 2
+          tokenPlayer: 2
         }
       ],
       [
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 2
+          tokenPlayer: 2
         },
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 2
+          tokenPlayer: 2
         },
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2',
-          player: 1
+          tokenPlayer: 1
         },
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2'
         }
       ],
       [
         {
           hexColor: 'red',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2'
         },
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2'
         },
         {
           hexColor: 'green',
           hexBorderColor: 'black',
-          tokenColor: 'blue',
-          tokenBorderColor: 'white',
-          tokenLevel: '2'
+          tokenPlayer: 2,
+          tokenLevelArray: ['yellow', 'green', 'green', 'yellow', 'blue', 'yellow']
         }
       ]
     ]
