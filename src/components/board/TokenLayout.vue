@@ -8,7 +8,10 @@
     }"
   >
     <div
-      class="inner-token"
+      :class="{
+        'inner-token': true,
+        'inner-hover-border' : !this.tokenLevelArray?.length
+      }"
       :style="{
         backgroundColor: playerColorInvert,
         visibility: 'visible',
@@ -78,5 +81,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.inner-hover-border:hover {
+  box-shadow: 0 0 0px 4px yellow;
 }
 </style>
