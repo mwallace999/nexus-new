@@ -10,16 +10,16 @@
     <div
       :class="{
         'inner-token': true,
-        'inner-hover-border' : !this.tokenLevelArray?.length
+        'inner-hover-border': !hasLevels
       }"
       :style="{
-        backgroundColor: playerColorInvert,
+        backgroundColor: playerColorHighlight,
         visibility: 'visible',
         borderColor: playerColor
       }"
     >
       <h1 :style="{ color: playerColor}">
-        {{ this.tokenLevelArray?.length }}
+        {{ hasLevels }}
       </h1>
     </div>    
   </div>
@@ -37,19 +37,20 @@ export default {
     };
   },
   computed: {
+    hasLevels() { return this.tokenLevelArray?.length },
+    showLevels() { return this.hasLevels ? 'visibile' : 'hidden'},
     playerColor() { return this.tokenPlayer === 1 ? 'white' : 'black' },
-    playerColorInvert() { return this.tokenPlayer === 1 ? 'black' : 'white' },
-    showLevels() { return this.tokenLevelArray?.length ? 'visibile' : 'hidden'},
+    playerColorHighlight() { return this.tokenPlayer === 1 ? 'black' : 'white' },
     tokenLevelGradient() {
       const gradArray = [];
       for (let i = 0; i < 6; i++) {
-        const levelColor = this.tokenLevelArray?.[i] || this.playerColorInvert;
+        const wedgeColor = this.tokenLevelArray?.[i] || this.playerColorHighlight;
         // Styling for each wedge of token
-        gradArray.push(`${levelColor} ${i * 60}deg ${i * 60 + 55}deg`);
+        gradArray.push(`${wedgeColor} ${i * 60}deg ${i * 60 + 55}deg`);
         // Styling for wedge divider
         if (this.tokenLevelArray?.[i]) gradArray.push(`${this.playerColor} ${i * 60 + 55}deg ${(i + 1) * 60}deg`)
       }
-      if (this.tokenLevelArray?.length) gradArray.push(`${this.playerColor} 355deg 360deg`)
+      if (this.hasLevels) gradArray.push(`${this.playerColor} 355deg 360deg`)
       const returnStr = 'conic-gradient(' + gradArray.join(',') + ')';
       return returnStr;
     }

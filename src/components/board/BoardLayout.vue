@@ -79,7 +79,8 @@ export default {
         {
           hexColor: 'blue',
           hexBorderColor: 'black',
-          tokenPlayer: 1
+          tokenPlayer: 1,
+          tokenLevelArray: ['red']
         },
         {
           hexColor: 'green',

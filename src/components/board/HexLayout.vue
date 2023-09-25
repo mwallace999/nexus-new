@@ -1,7 +1,7 @@
 <template>
-  <div :style="{ backgroundColor: 'black' }" class="hexagon outer-border">
-    <div :v-if="hexBorderColor" :style="{ backgroundColor: hexBorderColor }" class="hexagon inner-border">
-      <div :style="{ backgroundColor: hexColor }" class="hexagon inner-hex">
+  <div class="hexagon outer-border">
+    <div :v-if="hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexBorderColor }" >
+      <div class="hexagon inner-hex" :style="{ backgroundColor: hexColor }" >
         <token-layout
           v-if="tokenPlayer"
           :token-player="tokenPlayer"
@@ -16,14 +16,14 @@
 import TokenLayout from './TokenLayout.vue'
 
 export default {
+  components: {
+    TokenLayout
+  },
   props: {
     hexColor: String,
     hexBorderColor: String,
     tokenLevelArray: Array,
     tokenPlayer: Number
-  },
-  components: {
-    TokenLayout
   },
   data() {
     return {};
@@ -42,6 +42,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: black;
   
 }
 .inner-border {
