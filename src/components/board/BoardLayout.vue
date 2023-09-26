@@ -43,4 +43,7 @@ export default {
     gap: 3px;
     margin-bottom: -25px;
 }
+.board {
+    padding-bottom: 25px;
+}
 </style>

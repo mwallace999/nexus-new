@@ -1,10 +1,11 @@
 import { createStore } from 'vuex';
-import staticBoard from './staticBoard'
+import staticBoard from '../lib/staticBoard'
 
 const store = createStore({
     state: {
         board: [],
-        currentPlayer: 1
+        currentPlayer: 1,
+        action: ''
     },
     getters: {
         board: (state) => state.board,

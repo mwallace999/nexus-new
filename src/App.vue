@@ -1,28 +1,28 @@
 <template>
-    <board-layout/>
+    <table-top/>
 </template>
 
 <script>
-import BoardLayout from './components/board/BoardLayout.vue'
+import TableTop from './components/table/TableTop.vue'
 
 export default {
     name: 'App',
     components: {
-        BoardLayout
+        TableTop
     }
 }
 </script>
 
 <style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-color: silver; 
+}
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
-body {
-    background-color: silver
+    height: inherit;
 }
 </style>
