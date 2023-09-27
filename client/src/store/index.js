@@ -1,4 +1,10 @@
 import { createStore } from 'vuex';
+// Import the Socket.io client
+import io from 'socket.io-client';
+
+// Create a Socket.io instance
+const socket = io('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] });
+console.log('SOCKET TO ME', socket)
 // import staticBoard from '../lib/staticBoard'
 
 const store = createStore({
@@ -70,6 +76,7 @@ const store = createStore({
         },
         selectAction({ commit, state }, action) {
             action = action === state.currentAction ? '' : action;
+            socket.emit('makeMove', 'HELLO');
             commit('setAction', action);
         }
     },
