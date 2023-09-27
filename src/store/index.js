@@ -5,27 +5,28 @@ const store = createStore({
     state: {
         board: [],
         currentPlayer: 1,
-        action: ''
+        currentAction: ''
     },
     getters: {
         board: (state) => state.board,
         currentPlayer: (state) => state.currentPlayer,
-        action: (state) => state.action,
+        currentAction: (state) => state.currentAction
     },
     mutations: {
         setBoard(state, data) {
             state.board = data;
         },
         setAction(state, data) {
-            state.action = data;
-            console.log('ACTION SET', state.action)
+            state.currentAction = data;
+            console.log('ACTION SET', state.currentAction);
         }
     },  
     actions: {
         generateBoard({ commit }) {
             commit('setBoard', staticBoard);
         },
-        selectAction({ commit }, action) {
+        selectAction({ commit, state }, action) {
+            action = action === state.currentAction ? '' : action;
             commit('setAction', action);
         }
     },

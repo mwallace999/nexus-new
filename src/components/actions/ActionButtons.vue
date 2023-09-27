@@ -1,13 +1,13 @@
 <template>
     <div class="actions-grid">
-        <div v-for="act in actions" :key="act" 
+        <div v-for="action in actions" :key="action" 
             :class="{
                 'action-button':  true,
-                'active': act === this.action
+                'active': action === currentAction
             }"
-            @click="selectAction(act)"
+            @click="selectAction(action)"
         >
-            {{ act }}
+            {{ action }}
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['action'])
+        ...mapGetters(['currentAction'])
     },
     methods: {
         ...mapActions(['selectAction']),
