@@ -1,6 +1,6 @@
 <template>
     <div class="hexagon outer-border">
-        <div :v-if="hexData.hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor }">
+        <div :v-if="hexData.hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
         <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout
                 v-if="hexData.tokenPlayer"
