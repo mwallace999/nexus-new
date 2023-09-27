@@ -1,11 +1,8 @@
 import { createStore } from 'vuex';
-// Import the Socket.io client
 import io from 'socket.io-client';
-
-// Create a Socket.io instance
-const socket = io('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] });
-console.log('SOCKET TO ME', socket)
 // import staticBoard from '../lib/staticBoard'
+
+const socket = io('http://localhost:3000', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 const store = createStore({
     state: {
@@ -32,6 +29,12 @@ const store = createStore({
         }
     },  
     actions: {
+        listenToServerEvents(/*{ commit }*/) {     
+            socket.on('moveReceived', (data) => {
+                console.log('MOVE RECEIVED', data)
+                // commit('SET_EVENT1_DATA', data);
+            });
+          },
         generateBoard({ commit, state }) {
             const { layout, colors } = state.setup;
             const hexCount = layout.reduce((acc, h) => acc + h, 0);
@@ -76,7 +79,7 @@ const store = createStore({
         },
         selectAction({ commit, state }, action) {
             action = action === state.currentAction ? '' : action;
-            socket.emit('makeMove', 'HELLO');
+            socket.emit('makeMove', action);
             commit('setAction', action);
         }
     },
