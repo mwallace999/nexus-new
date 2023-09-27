@@ -5,7 +5,9 @@
         <div class="center border">
             <board-layout></board-layout>
         </div>
-        <div class="border"></div>
+        <div class="border">
+            <actions-layout></actions-layout>
+        </div>
         <div class="border"></div>
         <div class="border"></div>
         <div class="border"></div>
@@ -14,10 +16,12 @@
 
 <script>
 import BoardLayout from '../board/BoardLayout.vue'
+import ActionsLayout from '../actions/ActionsLayout.vue'
 
 export default {
     components: {
-        BoardLayout
+        BoardLayout,
+        ActionsLayout
     },
     data() {
         return {

@@ -21,13 +21,13 @@ export default {
         };
     },
     created() {
-        this.generateBoard
+        this.generateBoard();
     },
     computed: {
         ...mapGetters(['board']),
-        ...mapActions(['generateBoard'])
     },
     methods: {
+        ...mapActions(['generateBoard'])
     },
 };
 </script>
