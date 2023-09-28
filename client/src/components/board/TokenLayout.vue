@@ -10,7 +10,7 @@
     <div
         :class="{
             'inner-token': true,
-            'inner-hover-border': !hasLevels
+            'inner-hover-border': !tokenLevel
         }"
         :style="{
             backgroundColor: playerColorHighlight,
@@ -19,7 +19,7 @@
         }"
     >
         <h1 :style="{ color: playerColor}">
-            {{ hasLevels }}
+            {{ tokenLevel }}
         </h1>
     </div>    
   </div>
@@ -29,28 +29,33 @@
 
 export default {
     props: {
-        tokenPlayer: Number,
-        tokenLevelArray: Array
+        hexData: Object
     },
     data() {
         return {
         };
     },
     computed: {
-        hasLevels() { return this.tokenLevelArray?.length },
-        showLevels() { return this.hasLevels ? 'visibile' : 'hidden'},
+        tokenPlayer() { return this.hexData.tokenPlayer },
+        tokenLevelArray() { return this.hexData.tokenLevelArray },
+        tokenLevel() { return this.hexData.tokenLevel },
+        tokenStatus() { return this.hexData.tokenStatus },
+        showLevels() { return this.tokenLevel ? 'visibile' : 'hidden'},
         playerColor() { return this.tokenPlayer === 1 ? 'white' : 'black' },
         playerColorHighlight() { return this.tokenPlayer === 1 ? 'black' : 'white' },
         tokenLevelGradient() {
             const gradArray = [];
             for (let i = 0; i < 6; i++) {
-                const wedgeColor = this.tokenLevelArray?.[i] || this.playerColorHighlight;
+                const wedgeColor = () => {
+                    if (i + 1 > this.tokenLevel) return this.playerColorHighlight
+                    else return this.tokenLevelArray?.[i] || 'gray';
+                }
                 // Styling for each wedge of token
-                gradArray.push(`${wedgeColor} ${i * 60}deg ${i * 60 + 55}deg`);
+                gradArray.push(`${wedgeColor()} ${i * 60}deg ${i * 60 + 55}deg`);
                 // Styling for wedge divider
-                if (this.tokenLevelArray?.[i]) gradArray.push(`${this.playerColor} ${i * 60 + 55}deg ${(i + 1) * 60}deg`)
+                if (i + 1 <= this.tokenLevel) gradArray.push(`${this.playerColor} ${i * 60 + 55}deg ${(i + 1) * 60}deg`)
             }
-            if (this.hasLevels) gradArray.push(`${this.playerColor} 355deg 360deg`)
+            if (this.tokenLevel) gradArray.push(`${this.playerColor} 355deg 360deg`)
             const returnStr = 'conic-gradient(' + gradArray.join(',') + ')';
             return returnStr;
         }

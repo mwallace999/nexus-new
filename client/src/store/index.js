@@ -12,7 +12,9 @@ const store = createStore({
         tokens: [{
             tokenPlayer: 1,
             hexId: 1,
-            tokenLevelArray: ['red', 'red', 'green']
+            tokenLevelArray: ['red', 'red', 'green'],
+            tokenLevel: 4,
+            tokenStatusArray: []
         }],
         thisPlayer: 1,
         currentPlayer: 1,
@@ -21,6 +23,7 @@ const store = createStore({
     getters: {
         board: (state) => {
             const boardState = state.board.map(row => row.map(hex => { return {...hex, ...state.tokens.find(token => token.hexId === hex.id)}}));
+            console.log('BOARD STATE', boardState);
             return  state.thisPlayer === 1 ? boardState : invertBoard(boardState);
         },
         currentPlayer: (state) => state.currentPlayer,
@@ -31,8 +34,8 @@ const store = createStore({
             state.board = data;
         },
         setAction(state, data) {
+            data = data === state.currentdata ? '' : data;
             state.currentAction = data;
-            console.log('ACTION SET', state.currentAction);
         },
         setThisPlayer(state, data) {
             state.thisPlayer = data;
@@ -40,22 +43,10 @@ const store = createStore({
     },  
     actions: {
         listenToServerEvents({ commit }) {
-
-            socket.on('newAction', (data) => {
-                console.log('ACTION RECEIVED', data);
-                // commit('SET_EVENT1_DATA', data);
-            });
-
             socket.on('newBoard', (board) => {
                 commit('setBoard', board);
             });
-
           },
-        selectAction({ commit, state }, action) {
-            action = action === state.currentAction ? '' : action;
-            socket.emit('selectAction', action);
-            commit('setAction', action);
-        }
     },
    
 });

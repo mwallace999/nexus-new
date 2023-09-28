@@ -1,11 +1,10 @@
 <template>
-    <div class="hexagon outer-border">
+    <div class="hexagon outer-border" @click="console.log(this.hexData)">
         <div :v-if="hexData.hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
         <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout
                 v-if="hexData.tokenPlayer"
-                :token-player="hexData.tokenPlayer"
-                :token-level-array="hexData.tokenLevelArray"
+                :hex-data="hexData"
             />
         </div>
         </div>

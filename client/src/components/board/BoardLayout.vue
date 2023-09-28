@@ -28,7 +28,7 @@ export default {
         };
     },
     mounted() { 
-        socket.emit('generateBoard', this.setup)
+        socket.emit('createBoard', this.setup)
     },
     computed: {
         ...mapGetters(['board']),

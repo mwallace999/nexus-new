@@ -1,4 +1,4 @@
-export function generateBoard(setup) {
+export function createBoard(setup) {
     const { layout, colors } = setup;
         const hexCount = layout.reduce((acc, h) => acc + h, 0);
         const minCount = Math.floor(hexCount / colors.length);
@@ -29,8 +29,8 @@ export function generateBoard(setup) {
                     row: r,
                     index: i,
                     hexColor,
-                    // hexBorderColor: hexColor
-                    // tokenPlayer: 1
+                    hexStatusArray: [],
+                    hexBorderColor: null
                 })
             }
             board.push(hexRowArr);

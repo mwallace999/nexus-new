@@ -5,7 +5,7 @@
                 'action-button':  true,
                 'active': action === currentAction
             }"
-            @click="selectAction(action)"
+            @click="setAction(action)"
         >
             {{ action }}
         </div>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
     components: {
@@ -27,7 +27,7 @@ export default {
         ...mapGetters(['currentAction'])
     },
     methods: {
-        ...mapActions(['selectAction']),
+        ...mapMutations(['setAction']),
     },
 };
 </script>

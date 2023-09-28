@@ -1,6 +1,6 @@
 <template>
     <div class="action-window">
-        <input v-model.number="computedValue" />
+        <input v-model.number="thisPlayer" />
         <div>
             <button @click="newBoard" class="custom-button"> NEW GAME </button>
         </div>
@@ -17,7 +17,7 @@ export default {
         };
     },
     computed: {
-        computedValue: {
+       thisPlayer: {
             get() {
                 return this.$store.state.thisPlayer; // Get the value from Vuex
             },
@@ -28,7 +28,7 @@ export default {
     },
     methods: {
         newBoard() {
-            socket.emit('generateBoard', {
+            socket.emit('createBoard', {
                 colors: ['red', 'green', 'blue'],
                 layout: [3, 4, 5, 4, 3]
             });
