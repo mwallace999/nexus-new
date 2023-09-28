@@ -18,7 +18,8 @@ const store = createStore({
         }],
         thisPlayer: 1,
         currentPlayer: 1,
-        currentAction: ''
+        currentAction: '',
+        activeToken: null
     },
     getters: {
         board: (state) => {
@@ -27,18 +28,24 @@ const store = createStore({
             return  state.thisPlayer === 1 ? boardState : invertBoard(boardState);
         },
         currentPlayer: (state) => state.currentPlayer,
-        currentAction: (state) => state.currentAction
+        currentAction: (state) => state.currentAction,
+        activeToken: (state) => state.activeToken
     },
     mutations: {
         setBoard(state, data) {
             state.board = data;
         },
         setAction(state, data) {
-            data = data === state.currentdata ? '' : data;
+            data = data === state.currentAction ? '' : data;
             state.currentAction = data;
         },
         setThisPlayer(state, data) {
             state.thisPlayer = data;
+        },
+        setActiveToken(state, data) {
+            data = data === state.activeToken ? '' : data;
+            state.activeToken = data;
+            console.log('ACTIVE TOKEN', data)
         }
     },  
     actions: {

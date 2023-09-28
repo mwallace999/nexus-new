@@ -1,11 +1,15 @@
 <template>
   <div
-    class="token" 
+    :class="{
+        token: true,
+        active: this.activeToken === hexData.id
+    }" 
     :style="{
         background: tokenLevelGradient,
         visibility: showLevels,
         borderColor: playerColor
     }"
+    @click="setActiveToken(hexData.id)"
   >
     <div
         :class="{
@@ -26,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
     props: {
@@ -36,6 +41,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(['activeToken']),
         tokenPlayer() { return this.hexData.tokenPlayer },
         tokenLevelArray() { return this.hexData.tokenLevelArray },
         tokenLevel() { return this.hexData.tokenLevel },
@@ -60,7 +66,9 @@ export default {
             return returnStr;
         }
     },
-    methods: {},
+    methods: {
+        ...mapMutations(['setActiveToken'])
+    },
 };
 </script>
 
@@ -89,6 +97,22 @@ export default {
     align-items: center;
 }
 .inner-hover-border:hover {
-    box-shadow: 0 0 0px 4px yellow;
+    box-shadow: 0 0 0 4px yellow;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px #00ff48;
+  }
+  50% {
+    box-shadow: 0 0 0 4px #00ff48;
+  }
+  100% {
+    box-shadow: 0 0 0 0px #00ff48;
+  }
+}
+.active {
+    /* box-shadow: 0 0 0 4px #00ff48; */
+    animation: pulse 1s infinite;
 }
 </style>
