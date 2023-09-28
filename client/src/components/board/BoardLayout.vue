@@ -10,7 +10,10 @@
 
 <script>
 import HexLayout from './HexLayout.vue'
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import socket from '../../lib/socket'
+// import staticBoard from '../lib/staticBoard'
+
 
 export default {
     components: {
@@ -18,17 +21,20 @@ export default {
     },
     data() {
         return {
+            setup: {
+                colors: ['red', 'green', 'blue'],
+                layout: [3, 4, 5, 4, 3]
+            }
         };
     },
-    created() {
-        this.generateBoard();
+    mounted() { 
+        socket.emit('generateBoard', this.setup)
     },
     computed: {
         ...mapGetters(['board']),
     },
     methods: {
-        ...mapActions(['generateBoard'])
-    },
+    }
 };
 </script>
 
