@@ -42,7 +42,7 @@ const store = createStore({
         thisPlayer: 1,
         currentPlayer: 1,
         currentAction: '',
-        activeToken: null
+        activeHex: null
     },
     getters: {
         board: (state) => {
@@ -52,7 +52,7 @@ const store = createStore({
         },
         currentPlayer: (state) => state.currentPlayer,
         currentAction: (state) => state.currentAction,
-        activeToken: (state) => state.activeToken
+        activeHex: (state) => state.activeHex
     },
     mutations: {
         setBoard(state, data) {
@@ -65,18 +65,28 @@ const store = createStore({
         setThisPlayer(state, data) {
             state.thisPlayer = data;
         },
-        setActiveToken(state, data) {
-            data = data === state.activeToken ? '' : data;
-            state.activeToken = data;
+        setActiveHex(state, data) {
+            data = data === state.activeHex ? '' : data;
+            state.activeHex = data;
             console.log('ACTIVE TOKEN', data)
-        }
+        },
+        moveActiveHexToken(state, data) {
+            const tokenIndex = state.tokens.findIndex(token => token.hexId === state.activeHex);
+            state.tokens[tokenIndex].hexId = data;
+            state.activeHex = data;
+        },
     },  
     actions: {
         listenToServerEvents({ commit }) {
             socket.on('newBoard', (board) => {
                 commit('setBoard', board);
             });
-          },
+        },
+        handleHexClick({ commit, state }, hexId) {
+            console.log(hexId);
+            if (!state.currentAction) commit('setActiveHex', hexId);
+            else if (state.currentAction === 'MOVE') commit('moveActiveHexToken', hexId)     
+        }
     },
    
 });

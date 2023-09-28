@@ -1,5 +1,5 @@
 <template>
-    <div class="hexagon outer-border" @click="console.log(this.hexData)">
+    <div class="hexagon outer-border" @click="handleHexClick(hexData.id)">
         <div :v-if="hexData.hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
         <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout
@@ -13,6 +13,8 @@
 
 <script>
 import TokenLayout from './TokenLayout.vue'
+import { mapActions } from 'vuex';
+
 
 export default {
     components: {
@@ -25,6 +27,7 @@ export default {
         return {};
     },
     methods: {
+        ...mapActions(['handleHexClick'])
     },
 };
 </script>

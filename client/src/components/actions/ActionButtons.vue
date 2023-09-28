@@ -1,14 +1,15 @@
 <template>
     <div class="actions-grid">
-        <div v-for="action in actions" :key="action" 
+        <button v-for="action in actions" :key="action" 
             :class="{
                 'action-button':  true,
                 'active': action === currentAction
             }"
             @click="setAction(action)"
+            :disabled="!activeHex"
         >
             {{ action }}
-        </div>
+        </button>
     </div>
 </template>
 
@@ -24,7 +25,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['currentAction'])
+        ...mapGetters(['currentAction', 'activeHex'])
     },
     methods: {
         ...mapMutations(['setAction']),
