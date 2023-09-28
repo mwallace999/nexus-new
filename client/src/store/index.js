@@ -9,13 +9,36 @@ function invertBoard(board) {
 const store = createStore({
     state: {
         board: [],
-        tokens: [{
-            tokenPlayer: 1,
-            hexId: 1,
-            tokenLevelArray: ['red', 'red', 'green'],
-            tokenLevel: 4,
-            tokenStatusArray: []
-        }],
+        tokens: [
+            {
+                tokenPlayer: 1,
+                hexId: 1,
+                tokenLevelArray: ['red', 'red', 'green'],
+                tokenLevel: 4,
+                tokenStatusArray: []
+            },
+            {
+                tokenPlayer: 2,
+                hexId: 13,
+                tokenLevelArray: ['red', 'blue', 'green'],
+                tokenLevel: 6,
+                tokenStatusArray: []
+            },
+            {
+                tokenPlayer: 2,
+                hexId: 10,
+                tokenLevelArray: ['red', 'blue', 'green'],
+                tokenLevel: 0,
+                tokenStatusArray: []
+            },
+            {
+                tokenPlayer: 1,
+                hexId: 8,
+                tokenLevelArray: ['red'],
+                tokenLevel: 1,
+                tokenStatusArray: []
+            }
+        ],
         thisPlayer: 1,
         currentPlayer: 1,
         currentAction: '',
