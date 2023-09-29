@@ -1,6 +1,9 @@
 <template>
     <div class="action-window">
-        <input v-model.number="thisPlayer" />
+        <select v-model.number="thisPlayer" :items="[1, 2]">
+            <option value="1">Player 1</option>
+            <option value="2">Player 2</option>
+        </select>
         <div>
             <button @click="newBoard" class="custom-button"> NEW GAME </button>
         </div>

@@ -61,6 +61,9 @@ const store = createStore({
             }
         ],
         thisPlayer: 1,
+        currentPlayer: 1,
+        currentAction: '',
+        activeHex: null,
         playerStyles: {
             1: {
                 color: 'white',
@@ -70,10 +73,7 @@ const store = createStore({
                 color: 'black',
                 highlightColor: 'white'
             },
-        },
-        currentPlayer: 1,
-        currentAction: '',
-        activeHex: null
+        }
     },
     getters: {
         board: (state) => {
@@ -164,7 +164,7 @@ const store = createStore({
             // CORE HANDLING: MOVE, ATTACK, MERGE, SET-ACTIVE-HEX
             // If active Hex has token, and clicked hex is not active hex...
             else if (activeHexToken && hexId !== state.activeHex) {
-                // ...and no token on target, then move
+                // ...and no token on target, then Move
                 if (!targetHexToken) commit('moveActiveHexToken', hexId);
                 // If token on target is...
                 else {
