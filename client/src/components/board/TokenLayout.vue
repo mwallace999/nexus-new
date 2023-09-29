@@ -46,7 +46,7 @@ export default {
         tokenLevelArray() { return this.hexData.tokenLevelArray },
         tokenLevel() { return this.hexData.tokenLevel },
         tokenStatus() { return this.hexData.tokenStatus },
-        showLevels() { return this.tokenLevel ? 'visibile' : 'hidden'},
+        showLevels() { return this.tokenLevel ? 'visible' : 'hidden'},
         playerColor() { return this.tokenPlayer === 1 ? 'white' : 'black' },
         playerColorHighlight() { return this.tokenPlayer === 1 ? 'black' : 'white' },
         tokenLevelGradient() {
