@@ -1,5 +1,5 @@
 <template>
-    <div class="hexagon outer-border" @click="console.log(hexData); handleHexClick(hexData.id)">
+    <div class="hexagon outer-border" @click="console.log('HEX CLICKED', hexData); handleHexClick(hexData.id)">
         <div :v-if="hexData.hexBorderColor" class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
         <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout

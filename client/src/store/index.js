@@ -29,36 +29,36 @@ const store = createStore({
             {
                 tokenPlayer: 1,
                 hexId: 10,
-                tokenLevelArray: ['red', 'blue', 'green'],
-                tokenLevel: 0,
+                tokenLevelArray: [],
+                tokenLevel: 3,
                 tokenStatusArray: []
             },
             {
                 tokenPlayer: 1,
                 hexId: 8,
                 tokenLevelArray: ['red'],
-                tokenLevel: 1,
+                tokenLevel: 2,
                 tokenStatusArray: []
             },
             {
                 tokenPlayer: 2,
                 hexId: 2,
                 tokenLevelArray: ['red', 'blue', 'green'],
-                tokenLevel: 6,
+                tokenLevel: 4,
                 tokenStatusArray: []
             },
             {
                 tokenPlayer: 2,
                 hexId: 19,
                 tokenLevelArray: ['blue', 'blue'],
-                tokenLevel: 3,
+                tokenLevel: 5,
                 tokenStatusArray: []
             },
             {
                 tokenPlayer: 1,
                 hexId: 3,
                 tokenLevelArray: ['red'],
-                tokenLevel: 1,
+                tokenLevel: 3,
                 tokenStatusArray: []
             }
         ],
@@ -107,7 +107,7 @@ const store = createStore({
             const targetHexToken = this.getters.fetchTokenByHexId(hexId);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex); 
             targetHexToken.tokenLevel =  Math.min(targetHexToken.tokenLevel + activeHexToken.tokenLevel, 6);
-            targetHexToken.tokenLevelArray = targetHexToken.tokenLevelArray.concat(activeHexToken.tokenLevelArray).slice(0,  targetHexToken.tokenLevel);
+            targetHexToken.tokenLevelArray = activeHexToken.tokenLevelArray.concat(targetHexToken.tokenLevelArray).slice(-targetHexToken.tokenLevel);
             state.tokens = state.tokens.filter(token => token.hexId !== state.activeHex);
             state.activeHex = hexId;
         },
@@ -116,7 +116,7 @@ const store = createStore({
             const activeHex = this.getters.fetchHexById(state.activeHex);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
             const levelColor = activeHex.hexColor;
-            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.push(levelColor);  
+            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.unshift(levelColor);  
         }
     },  
     actions: {
@@ -126,11 +126,10 @@ const store = createStore({
             });
         },
         handleHexClick({ commit, state }, hexId) {
-            console.log(`HEX ${hexId} CLICKED`);
+            // console.log(`HEX ${hexId} CLICKED`);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
             const targetHexToken = this.getters.fetchTokenByHexId(hexId);
 
-            console.log()
             // If active Hex has token, and clicked hex is not active hex...
             if (activeHexToken && hexId !== state.activeHex) {
                 // ...and no token on target, then move
