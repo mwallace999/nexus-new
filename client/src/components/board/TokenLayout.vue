@@ -41,14 +41,14 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex']),
+        ...mapGetters(['activeHex', 'playerStyles']),
         tokenPlayer() { return this.hexData.tokenPlayer },
         tokenLevelArray() { return this.hexData.tokenLevelArray },
         tokenLevel() { return this.hexData.tokenLevel },
         tokenStatus() { return this.hexData.tokenStatus },
         showLevels() { return this.tokenLevel ? 'visible' : 'hidden'},
-        playerColor() { return this.tokenPlayer === 1 ? 'white' : 'black' },
-        playerColorHighlight() { return this.tokenPlayer === 1 ? 'black' : 'white' },
+        playerColor() { return this.playerStyles[this.tokenPlayer].color },
+        playerColorHighlight() { return this.playerStyles[this.tokenPlayer].highlightColor },
         tokenLevelGradient() {
             const gradArray = [];
             for (let i = 0; i < 6; i++) {

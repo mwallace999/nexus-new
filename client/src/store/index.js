@@ -1,15 +1,13 @@
 import { createStore } from 'vuex';
 import socket from '../lib/socket';
 // import staticBoard from '../lib/staticBoard'
-import { reactive } from 'vue';
-
 
 function invertBoard(board) {
     return board.map(row => row.reverse()).reverse();
 }
 
 const store = createStore({
-    state: reactive ({
+    state: {
         board: [],
         tokens: [
             {
@@ -63,10 +61,20 @@ const store = createStore({
             }
         ],
         thisPlayer: 1,
+        playerStyles: {
+            1: {
+                color: 'white',
+                highlightColor: 'black'
+            },
+            2: {
+                color: 'black',
+                highlightColor: 'white'
+            },
+        },
         currentPlayer: 1,
         currentAction: '',
         activeHex: null
-    }),
+    },
     getters: {
         board: (state) => {
             const boardState = state.board.map(row => row.map(hex => { return {...hex, ...state.tokens.find(token => token.hexId === hex.id)}}));
@@ -77,6 +85,7 @@ const store = createStore({
         activeHex: (state) => state.activeHex,
         fetchTokenByHexId: (state) => (hexId) => state.tokens.find(token => token.hexId === hexId),
         fetchHexById: (state) => (hexId) => state.board.flat().find(hex => hex.id === hexId),
+        playerStyles: (state) => state.playerStyles
     },
     mutations: {
         setBoard(state, board) {
@@ -99,7 +108,11 @@ const store = createStore({
         },
         moveActiveHexToken(state, hexId) {
             console.log(`MOVE ACTIVE HEX TOKEN --> HEX: ${hexId}`)
-            this.getters.fetchTokenByHexId(state.activeHex).hexId = hexId;
+            const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex); 
+            const targetHex = this.getters.fetchHexById(hexId);
+
+            activeHexToken.hexId = hexId;
+            targetHex.hexBorderColor = state.playerStyles[state.thisPlayer].color; // XXZXX -  Make this dynamic
             state.activeHex = hexId;
         },
         mergeTokens(state, hexId) {
@@ -117,6 +130,19 @@ const store = createStore({
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
             const levelColor = activeHex.hexColor;
             if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.unshift(levelColor);  
+        },
+        addToken(state, hexId) {
+            const targetHex = this.getters.fetchHexById(hexId);
+            targetHex.hexBorderColor = state.playerStyles[state.thisPlayer].color;
+
+            const newToken = {
+                tokenPlayer: state.thisPlayer,
+                hexId,
+                tokenLevelArray: [],
+                tokenLevel: 1,
+                tokenStatusArray: []
+            }
+            state.tokens.push(newToken);
         }
     },  
     actions: {
@@ -130,8 +156,14 @@ const store = createStore({
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
             const targetHexToken = this.getters.fetchTokenByHexId(hexId);
 
+            // HANDLE SUMMON NEW TOKEN
+            if (state.currentAction === 'SUMMON') {    
+                if (!this.getters.fetchTokenByHexId(hexId)) commit('addToken', hexId);
+            }
+
+            // CORE HANDLING: MOVE, ATTACK, MERGE, SET-ACTIVE-HEX
             // If active Hex has token, and clicked hex is not active hex...
-            if (activeHexToken && hexId !== state.activeHex) {
+            else if (activeHexToken && hexId !== state.activeHex) {
                 // ...and no token on target, then move
                 if (!targetHexToken) commit('moveActiveHexToken', hexId);
                 // If token on target is...
