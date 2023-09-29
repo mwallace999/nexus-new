@@ -75,7 +75,8 @@ const store = createStore({
         currentPlayer: (state) => state.currentPlayer,
         currentAction: (state) => state.currentAction,
         activeHex: (state) => state.activeHex,
-        fetchTokenByHexId: (state) => (hexId) => state.tokens.find(token => token.hexId === hexId)
+        fetchTokenByHexId: (state) => (hexId) => state.tokens.find(token => token.hexId === hexId),
+        fetchHexById: (state) => (hexId) => state.board.flat().find(hex => hex.id === hexId),
     },
     mutations: {
         setBoard(state, board) {
@@ -104,14 +105,18 @@ const store = createStore({
         mergeTokens(state, hexId) {
             console.log('MERGE TOKENS')
             const targetHexToken = this.getters.fetchTokenByHexId(hexId);
-            const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
-        
-            targetHexToken.tokenLevel =  Math.min(targetHexToken.tokenLevel + activeHexToken.tokenLevel, 6)
-            targetHexToken.tokenLevelArray = targetHexToken.tokenLevelArray.concat(activeHexToken.tokenLevelArray).slice(0,  targetHexToken.tokenLevel)
-
-            console.log('TTA', targetHexToken)
+            const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex); 
+            targetHexToken.tokenLevel =  Math.min(targetHexToken.tokenLevel + activeHexToken.tokenLevel, 6);
+            targetHexToken.tokenLevelArray = targetHexToken.tokenLevelArray.concat(activeHexToken.tokenLevelArray).slice(0,  targetHexToken.tokenLevel);
             state.tokens = state.tokens.filter(token => token.hexId !== state.activeHex);
             state.activeHex = hexId;
+        },
+        drawLevel(state) {
+            console.log('DRAW LEVEL')
+            const activeHex = this.getters.fetchHexById(state.activeHex);
+            const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
+            const levelColor = activeHex.hexColor;
+            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.push(levelColor);  
         }
     },  
     actions: {
@@ -132,14 +137,18 @@ const store = createStore({
                 if (!targetHexToken) commit('moveActiveHexToken', hexId);
                 // If token on target is...
                 else {
-                    // enemy? Attack
+                    // Enemy? Attack
                     if (targetHexToken.tokenPlayer !== state.thisPlayer) console.log('ATTACK!!!');
-                    // Mine? Merge
+                    // Yours? Merge
                     else commit('mergeTokens', hexId);
                 }
             } else {
                 commit('setActiveHex', hexId);
             }
+        },
+        handleActionClick({ commit }, action) {
+            if (action === 'DRAW') commit('drawLevel');
+            commit('setAction', action);
         }
     },
    

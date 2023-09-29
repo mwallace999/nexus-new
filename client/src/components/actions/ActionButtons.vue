@@ -5,7 +5,7 @@
                 'action-button':  true,
                 'active': action === currentAction
             }"
-            @click="setAction(action)"
+            @click="handleActionClick(action)"
             :disabled="!activeHex"
         >
             {{ action }}
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
@@ -28,7 +28,7 @@ export default {
         ...mapGetters(['currentAction', 'activeHex'])
     },
     methods: {
-        ...mapMutations(['setAction']),
+        ...mapActions(['handleActionClick']),
     },
 };
 </script>
