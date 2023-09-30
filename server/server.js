@@ -7,12 +7,22 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+// Add Rooms for multiuser handling, emit selectively
+const dataStore = {
+    users: []
+}
+
 // SOCKET.IO HANDLING
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    dataStore.users.push(socket.id);
+    console.log(`A user connected`);
+    console.log('CURRENT USERS:', dataStore.users)
+
 
     socket.on('disconnect', () => {
+        dataStore.users =  dataStore.users.filter((user) => user !== socket.id);
         console.log('A user disconnected');
+        console.log('CURRENT USERS:', dataStore.users)
     });
 
     socket.on('syncNewGame', (setup) => {
