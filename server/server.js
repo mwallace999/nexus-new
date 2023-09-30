@@ -7,34 +7,40 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Add Rooms for multiuser handling, emit selectively
+// DATA STORE
 const dataStore = {
     users: []
 }
 
+// HELPER FUNCTIONS
+const getRoom = (socket) => Array.from(socket.rooms)[1];
+
 // SOCKET.IO HANDLING
 io.on('connection', (socket) => {
     dataStore.users.push(socket.id);
-    console.log(`A user connected`);
-    console.log('CURRENT USERS:', dataStore.users)
-
+    const room = `Room${Math.ceil(dataStore.users.length/2)}`;
+    socket.join(room);
+    console.log(`A user connected to ${room}`);
+    // console.log('CURRENT USERS:', dataStore.users)
 
     socket.on('disconnect', () => {
         dataStore.users =  dataStore.users.filter((user) => user !== socket.id);
         console.log('A user disconnected');
-        console.log('CURRENT USERS:', dataStore.users)
+        // console.log('CURRENT USERS:', dataStore.users)
     });
 
     socket.on('syncNewGame', (setup) => {
         const board = createBoard(setup);
-        io.emit('newGame', board);
+        const userRoom = getRoom(socket)
+        io.to(userRoom).emit('newGame', board);
     });
 
     socket.on('syncBoardState', (boardState) => {
         console.log('SYNCING BOARD STATE');
-        io.emit('boardState',  boardState);
+        const userRoom = getRoom(socket);
+        console.log('userRoom', userRoom)
+        io.to(userRoom).emit('boardState',  boardState);
     })
-  
 });
 
 // START SERVER
