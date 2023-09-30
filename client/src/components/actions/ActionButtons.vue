@@ -6,7 +6,7 @@
                 'active': action === currentAction
             }"
             @click="handleActionClick(action)"
-            :disabled="!activeHex"
+            :disabled="action === 'DRAW' && !activeHex"
         >
             {{ action }}
         </button>
@@ -21,7 +21,7 @@ export default {
     },
     data() {
         return {
-            actions: ['MOVE', 'DRAW', 'SUMMON', '???']
+            actions: ['SUMMON', 'DRAW', '???', '???']
         };
     },
     computed: {

@@ -35,6 +35,5 @@ export function createBoard(setup) {
             }
             board.push(hexRowArr);
         })
-        console.log('BOARD', board)
         return board;
 }

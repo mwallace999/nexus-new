@@ -5,7 +5,7 @@
             <option value="2">Player 2</option>
         </select>
         <div>
-            <button @click="newBoard" class="custom-button"> NEW GAME </button>
+            <button @click="newGame" class="custom-button"> NEW GAME </button>
         </div>
     </div>
 </template>
@@ -30,8 +30,8 @@ export default {
         },
     },
     methods: {
-        newBoard() {
-            socket.emit('createBoard', {
+        newGame() {
+            socket.emit('syncNewGame', {
                 colors: ['red', 'green', 'blue'],
                 layout: [3, 4, 5, 4, 3]
             });

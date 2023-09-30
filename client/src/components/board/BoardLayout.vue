@@ -21,17 +21,13 @@ export default {
     },
     data() {
         return {
-            setup: {
-                colors: ['red', 'green', 'blue'],
-                layout: [3, 4, 5, 4, 3]
-            }
         };
     },
     mounted() { 
-        socket.emit('createBoard', this.setup)
+        socket.emit('syncNewGame', this.setup)
     },
     computed: {
-        ...mapGetters(['board']),
+        ...mapGetters(['board', 'setup']),
     },
     methods: {
     }
