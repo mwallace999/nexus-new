@@ -36,9 +36,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('syncBoardState', (boardState) => {
-        console.log('SYNCING BOARD STATE');
         const userRoom = getRoom(socket);
-        console.log('userRoom', userRoom)
+        console.log(`SYNCING BOARD STATE: ${userRoom}`);
         io.to(userRoom).emit('boardState',  boardState);
     })
 });
