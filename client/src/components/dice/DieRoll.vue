@@ -1,5 +1,5 @@
 <template>
-    <div> 
+    <div class="die" :style="{'background-color': dieData}"> 
         Die
     </div>
 </template>
@@ -9,6 +9,9 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
     components: {
+    },
+    props: {
+        dieData: String
     },
     data() {
         return {
@@ -24,4 +27,9 @@ export default {
 </script>
 
 <style scoped>
+.die {
+    height: 80px;
+    width: 80px;
+    border-radius: 10px;
+}
 </style>

@@ -13,14 +13,14 @@ const store = createStore({
             {
                 tokenPlayer: 1,
                 hexId: 1,
-                tokenLevelArray: ['red', 'red', 'green'],
-                tokenLevel: 4,
+                tokenLevelArray: ['red', 'red', 'green', 'red', 'red', 'red'],
+                tokenLevel: 6,
                 tokenStatusArray: []
             },
             {
                 tokenPlayer: 2,
                 hexId: 2,
-                tokenLevelArray: ['red', 'blue', 'green'],
+                tokenLevelArray: ['red', 'blue', 'green', 'blue', 'green'],
                 tokenLevel: 6,
                 tokenStatusArray: []
             },

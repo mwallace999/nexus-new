@@ -1,7 +1,6 @@
 <template>
     <div class="dice-row">
-        {{ diceData }}
-        <die-roll></die-roll>
+        <die-roll v-for="(die, i) in diceData" :key="`die${i}`" :die-data="die"></die-roll>
     </div>
 </template>
 
@@ -36,5 +35,8 @@ export default {
     border-radius: 5px;
     height: 10vh;
     margin: 10px;
+    display: flex;
+    justify-content: space-around;;
+    align-items: center;
 }
 </style>
