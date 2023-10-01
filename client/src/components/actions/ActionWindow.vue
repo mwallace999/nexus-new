@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import socket from '../../lib/socket'
+// import socket from '../../lib/socket'
 export default {
     components: {
     },
@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         newGame() {
-            socket.emit('syncNewGame', {
+            this.$socket.emit('syncNewGame', {
                 colors: ['red', 'green', 'blue'],
                 layout: [3, 4, 5, 4, 3]
             });

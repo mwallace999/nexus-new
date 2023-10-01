@@ -9,19 +9,24 @@
             <actions-layout></actions-layout>
         </div>
         <div class="border"></div>
-        <div class="border"></div>
+        <div class="border">
+            <dice-layout></dice-layout>
+        </div>
         <div class="border"></div>
     </div>
 </template>
 
 <script>
-import BoardLayout from '../board/BoardLayout.vue'
-import ActionsLayout from '../actions/ActionsLayout.vue'
+import BoardLayout from '../board/BoardLayout.vue';
+import ActionsLayout from '../actions/ActionsLayout.vue';
+import DiceLayout  from '../dice/DiceLayout.vue';
+
 
 export default {
     components: {
         BoardLayout,
-        ActionsLayout
+        ActionsLayout,
+        DiceLayout
     },
     data() {
         return {

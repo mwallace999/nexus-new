@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import socket from '../lib/socket';
-// import staticBoard from '../lib/staticBoard'
+// import staticBoard from '../lib/staticBoard';
 
 function invertBoard(board) {
     return board.map(row => row.reverse()).reverse();
@@ -19,7 +19,7 @@ const store = createStore({
             // },
             // {
             //     tokenPlayer: 2,
-            //     hexId: 13,
+            //     hexId: 2,
             //     tokenLevelArray: ['red', 'blue', 'green'],
             //     tokenLevel: 6,
             //     tokenStatusArray: []
@@ -82,6 +82,7 @@ const store = createStore({
     getters: {
         board: (state) => {
             const boardState = state.board.map(row => row.map(hex => { return {...hex, ...state.tokens.find(token => token.hexId === hex.id)}}));
+            console.log('BOARD STATE', boardState)
             return  state.thisPlayer === 1 ? boardState : invertBoard(boardState);
         },
         currentPlayer: (state) => state.currentPlayer,
@@ -172,7 +173,7 @@ const store = createStore({
             socket.on('newGame', (board) => {
                 console.log('NEW GAME');
                 commit('setBoard', board);
-                commit('setTokens', []);
+                // commit('setTokens', []); XXZXX -  uncomment
                 commit('setAction');
                 commit('setActiveHex');
             })
@@ -195,7 +196,10 @@ const store = createStore({
                 // If token on target is...
                 else {
                     // Enemy? Attack
-                    if (targetHexToken.tokenPlayer !== state.thisPlayer) console.log('ATTACK!!!');
+                    if (targetHexToken.tokenPlayer !== state.thisPlayer) {
+                        console.log('ATTACK!!!!')
+                        socket.emit('attackHex', hexId);
+                    }
                     // Yours? Merge
                     else commit('mergeTokens', hexId);
                 }

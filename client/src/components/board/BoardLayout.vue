@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import HexLayout from './HexLayout.vue'
+import HexLayout from './HexLayout.vue';
 import { mapGetters } from 'vuex';
-import socket from '../../lib/socket'
+// import socket from '../../lib/socket';
 // import staticBoard from '../lib/staticBoard'
 
 
@@ -24,7 +24,7 @@ export default {
         };
     },
     mounted() { 
-        socket.emit('syncNewGame', this.setup)
+        this.$socket.emit('syncNewGame', this.setup)
     },
     computed: {
         ...mapGetters(['board', 'setup']),

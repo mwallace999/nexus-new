@@ -1,0 +1,40 @@
+<template>
+    <div class="dice-row">
+        {{ diceData }}
+        <die-roll></die-roll>
+    </div>
+</template>
+
+<script>
+import DieRoll from './DieRoll.vue'
+import { mapGetters, mapActions } from 'vuex';
+
+export default {
+    components: {
+        DieRoll
+    },
+    props: {
+        diceData: Array
+    },
+    data() {
+        return {
+        };
+    },
+    computed: {
+        ...mapGetters([])
+    },
+    methods: {
+        ...mapActions([]),
+    },
+};
+</script>
+
+<style scoped>
+.dice-row {
+    width: calc(100% - 20px);
+    background-color: gray;
+    border-radius: 5px;
+    height: 10vh;
+    margin: 10px;
+}
+</style>
