@@ -1,5 +1,5 @@
 <template>
-    <div class="action-window">
+    <div class="player-window">
         <select v-model.number="thisPlayer" :items="[1, 2]">
             <option value="1">Player 1</option>
             <option value="2">Player 2</option>
@@ -11,7 +11,6 @@
 </template>
 
 <script>
-// import socket from '../../lib/socket'
 export default {
     components: {
     },
@@ -31,19 +30,16 @@ export default {
     },
     methods: {
         newGame() {
-            this.$socket.emit('syncNewGame', {
-                colors: ['red', 'green', 'blue'],
-                layout: [3, 4, 5, 4, 3]
-            });
+            this.$socket.emit('syncNewGame', this.$store.state.setup);
         }
     },
 };
 </script>
 
 <style scoped>
-.action-window {
+.player-window {
     height: 100%;
-    background-color: blue;
+    background-color: gray;
 }
 .custom-button {
   background-color: rgb(225, 14, 14);

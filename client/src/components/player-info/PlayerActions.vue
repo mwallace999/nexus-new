@@ -1,12 +1,11 @@
 <template>
-    <div class="actions-grid">
+    <div class="player-actions-grid">
         <button v-for="action in actions" :key="action" 
             :class="{
-                'action-button':  true,
+                'player-action-button':  true,
                 'active': action === currentAction
             }"
             @click="handleActionClick(action)"
-            :disabled="action === 'DRAW' && !activeHex"
         >
             {{ action }}
         </button>
@@ -21,7 +20,7 @@ export default {
     },
     data() {
         return {
-            actions: ['SUMMON', 'DRAW', '???', '???']
+            actions: ['SUMMON', '???']
         };
     },
     computed: {
@@ -35,13 +34,13 @@ export default {
 
 <style scoped>
 
-.actions-grid {
+.player-actions-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr;
     overflow: hidden;
 }
-.action-button{
+.player-action-button{
     height: 100%;
     background-color: green;
     border: solid black 2px;
@@ -49,7 +48,7 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.action-button.active {
+.player-action-button.active {
     background-color: yellow;
 }
 </style>

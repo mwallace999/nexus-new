@@ -21,10 +21,7 @@ export default {
     computed: {
         ...mapGetters(['activeHex', 'enemyHex', 'fetchTokenByHexId']),
         playerDiceData() { return this.fetchTokenByHexId(this.activeHex)?.tokenLevelArray; },
-        enemyDiceData() { 
-            console.log(this.enemyHex)
-            return this.fetchTokenByHexId(this.enemyHex)?.tokenLevelArray; 
-        }
+        enemyDiceData() { return this.fetchTokenByHexId(this.enemyHex)?.tokenLevelArray; }
     },
     methods: {
         ...mapActions([]),

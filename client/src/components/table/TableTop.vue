@@ -1,12 +1,14 @@
 <template>
     <div class="table-top">
         <div class="header border"></div>
-        <div class="border"></div>
+        <div class="border">
+            <player-info-layout></player-info-layout>
+        </div>
         <div class="center border">
             <board-layout></board-layout>
         </div>
         <div class="border">
-            <actions-layout></actions-layout>
+            <token-info-layout></token-info-layout>
         </div>
         <div class="border"></div>
         <div class="border">
@@ -18,15 +20,17 @@
 
 <script>
 import BoardLayout from '../board/BoardLayout.vue';
-import ActionsLayout from '../actions/ActionsLayout.vue';
+import TokenInfoLayout from '../token-info/TokenInfoLayout.vue';
 import DiceLayout  from '../dice/DiceLayout.vue';
+import PlayerInfoLayout from '../player-info/PlayerInfoLayout'
 
 
 export default {
     components: {
         BoardLayout,
-        ActionsLayout,
-        DiceLayout
+        TokenInfoLayout,
+        DiceLayout,
+        PlayerInfoLayout
     },
     data() {
         return {
