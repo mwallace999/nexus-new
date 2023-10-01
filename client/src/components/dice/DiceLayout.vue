@@ -1,8 +1,8 @@
 <template>
     <div> 
         Dice Roller
-        <dice-row :dice-data="diceData"></dice-row>
-        <dice-row :dice-data="diceData"></dice-row>
+        <dice-row :dice-data="enemyDiceData"></dice-row>
+        <dice-row :dice-data="playerDiceData"></dice-row>
     </div>
 </template>
 
@@ -19,18 +19,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'fetchTokenByHexId']),
-        diceData() { return this.fetchTokenByHexId(this.activeHex)?.tokenLevelArray; }
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchTokenByHexId']),
+        playerDiceData() { return this.fetchTokenByHexId(this.activeHex)?.tokenLevelArray; },
+        enemyDiceData() { 
+            console.log(this.enemyHex)
+            return this.fetchTokenByHexId(this.enemyHex)?.tokenLevelArray; 
+        }
     },
     methods: {
         ...mapActions([]),
-    },
-    created() {
-        // XXZXX - NOT Hitting socket
-        console.log('HERERE', this.$socket)
-        this.$socket.on('attackHex', (hexId) => {
-            console.log(`ATTACK HEX ORDER RECEIVED: ${hexId}`);
-        });
     }
 };
 </script>

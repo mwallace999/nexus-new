@@ -10,20 +10,20 @@ const store = createStore({
     state: {
         board: [],
         tokens: [
-            // {
-            //     tokenPlayer: 1,
-            //     hexId: 1,
-            //     tokenLevelArray: ['red', 'red', 'green'],
-            //     tokenLevel: 4,
-            //     tokenStatusArray: []
-            // },
-            // {
-            //     tokenPlayer: 2,
-            //     hexId: 2,
-            //     tokenLevelArray: ['red', 'blue', 'green'],
-            //     tokenLevel: 6,
-            //     tokenStatusArray: []
-            // },
+            {
+                tokenPlayer: 1,
+                hexId: 1,
+                tokenLevelArray: ['red', 'red', 'green'],
+                tokenLevel: 4,
+                tokenStatusArray: []
+            },
+            {
+                tokenPlayer: 2,
+                hexId: 2,
+                tokenLevelArray: ['red', 'blue', 'green'],
+                tokenLevel: 6,
+                tokenStatusArray: []
+            },
             // {
             //     tokenPlayer: 1,
             //     hexId: 10,
@@ -64,6 +64,7 @@ const store = createStore({
         currentPlayer: 1,
         currentAction: null,
         activeHex: null,
+        enemyHex: null,
         playerStyles: {
             1: {
                 color: 'white',
@@ -92,6 +93,7 @@ const store = createStore({
         fetchHexById: (state) => (hexId) => state.board.flat().find(hex => hex.id === hexId),
         playerStyles: (state) => state.playerStyles,
         setup: (state) => state.setup,
+        enemyHex: (state) => state.enemyHex
     },
     mutations: {
         setBoard(state, board) {
@@ -106,6 +108,9 @@ const store = createStore({
         },
         setThisPlayer(state, player) {
             state.thisPlayer = player;
+        },
+        setEnemyHex(state, hexId) {
+            state.enemyHex = hexId;
         },
         setActiveHex(state, hexId) {
             console.log('SET ACTIVE HEX:', hexId);
@@ -197,8 +202,7 @@ const store = createStore({
                 else {
                     // Enemy? Attack
                     if (targetHexToken.tokenPlayer !== state.thisPlayer) {
-                        console.log('ATTACK!!!!')
-                        socket.emit('attackHex', hexId);
+                        commit('setEnemyHex', hexId);
                     }
                     // Yours? Merge
                     else commit('mergeTokens', hexId);

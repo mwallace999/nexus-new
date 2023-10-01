@@ -1,8 +1,9 @@
 <template>
   <div
     :class="{
-        token: true,
-        active: this.activeHex === hexData.id
+        'token': true,
+        'active': this.activeHex === hexData.id,
+        'enemy': this.enemyHex === hexData.id,
     }" 
     :style="{
         background: tokenLevelGradient,
@@ -14,7 +15,8 @@
         :class="{
             'inner-token': true,
             'inner-hover-border': !tokenLevel,
-            'active': !tokenLevel && this.activeHex === hexData.id
+            'active': !tokenLevel && this.activeHex === hexData.id,
+            'enemy': !tokenLevel && this.enemyHex === hexData.id
         }"
         :style="{
             backgroundColor: playerColor,
@@ -41,7 +43,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'playerStyles']),
+        ...mapGetters(['activeHex', 'enemyHex', 'playerStyles']),
         tokenPlayer() { return this.hexData.tokenPlayer },
         tokenLevelArray() { return this.hexData.tokenLevelArray },
         tokenLevel() { return this.hexData.tokenLevel },
@@ -101,17 +103,23 @@ export default {
 
 @keyframes pulse {
   0% {
-    box-shadow: 0 0 0 0px #00ff48;
+    box-shadow: 0 0 0 0px var(--pulse-color);
   }
   50% {
-    box-shadow: 0 0 0 4px #00ff48;
+    box-shadow: 0 0 0 4px var(--pulse-color);
   }
   100% {
-    box-shadow: 0 0 0 0px #00ff48;
+    box-shadow: 0 0 0 0px var(--pulse-color);
   }
 }
+
 .active {
-    /* box-shadow: 0 0 0 4px #00ff48; */
-    animation: pulse 1s infinite;
+  --pulse-color:  #00ff48;
+  animation: pulse 1s infinite;
+}
+
+.enemy {
+  --pulse-color: #ffc800;
+  animation: pulse 1s infinite;
 }
 </style>
