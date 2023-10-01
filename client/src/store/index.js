@@ -191,10 +191,13 @@ const store = createStore({
             // HANDLE SUMMON NEW TOKEN
             if (state.currentAction === 'SUMMON') {    
                 if (!this.getters.fetchTokenByHexId(hexId)) commit('addToken', hexId);
+            } 
+            // If clicked hex is enemy hex, de-select enemy
+            else if (hexId === state.enemyHex) {
+                commit('setEnemyHex');
             }
-
             // CORE HANDLING: MOVE, ATTACK, MERGE, SET-ACTIVE-HEX
-            // If active Hex has token, and clicked hex is not active hex...
+            // If active hex has token, and clicked hex is not active hex...
             else if (activeHexToken && hexId !== state.activeHex) {
                 // ...and no token on target, then Move
                 if (!targetHexToken) commit('moveActiveHexToken', hexId);
