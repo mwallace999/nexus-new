@@ -78,7 +78,8 @@ const store = createStore({
         setup: {
             colors: ['red', 'green', 'blue'],
             layout: [3, 4, 5, 4, 3]
-        }
+        },
+        rollResult: null
     },
     getters: {
         board: (state) => {
@@ -93,14 +94,14 @@ const store = createStore({
         fetchHexById: (state) => (hexId) => state.board.flat().find(hex => hex.id === hexId),
         playerStyles: (state) => state.playerStyles,
         setup: (state) => state.setup,
+        rollResult: (state) => state.rollResult,
         enemyHex: (state) => state.enemyHex,
         fetchDiceByHexId: (state, getters) => (hexId) => {
             const colorArray = getters.fetchTokenByHexId(hexId)?.tokenLevelArray;
-            const valueArray = colorArray ? Array(colorArray.length).fill('?') : [];
             const diceArray = colorArray?.map((level, i) => {
                 return {
                     color: level,
-                    value: valueArray[i]
+                    value: state.rollResult?.[hexId]?.[i] || '?'
                 }
             })
             return diceArray
@@ -122,6 +123,9 @@ const store = createStore({
         },
         setEnemyHex(state, hexId) {
             state.enemyHex = hexId;
+        },
+        setRollResult(state, result) {
+            state.rollResult = result;
         },
         setActiveHex(state, hexId) {
             console.log('SET ACTIVE HEX:', hexId);
@@ -215,9 +219,7 @@ const store = createStore({
                 // If token on target is...
                 else {
                     // Enemy? Attack
-                    if (targetHexToken.tokenPlayer !== state.thisPlayer) {
-                        commit('setEnemyHex', hexId);
-                    }
+                    if (targetHexToken.tokenPlayer !== state.thisPlayer) commit('setEnemyHex', hexId);
                     // Yours? Merge
                     else commit('mergeTokens', hexId);
                 }
@@ -229,8 +231,15 @@ const store = createStore({
             if (action === 'DRAW') commit('drawLevel');
             commit('setAction', action);
         },
-        rollDice() {
+        rollDice({ commit, state, getters }) {
             console.log('ROLLING DICE!!!!');
+            const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
+            const enemyColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
+            const result = {
+                [state.activeHex]: playerColorArray ? playerColorArray.map(() => Math.ceil(Math.random() * 6)) : null,
+                [state.enemyHex]: enemyColorArray ? enemyColorArray.map(() => Math.ceil(Math.random() * 6)) : null
+            }
+            commit('setRollResult', result)
         }
     },
    

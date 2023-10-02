@@ -30,6 +30,7 @@ export default {
 .die {
     height: 80px;
     width: 80px;
+    border: solid 2px black; 
     border-radius: 10px;
     display: flex;
     justify-content: center;
