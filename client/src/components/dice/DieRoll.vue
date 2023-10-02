@@ -1,6 +1,6 @@
 <template>
-    <div class="die" :style="{'background-color': dieData}"> 
-        Die
+    <div class="die" :style="{'background-color': dieData.color}"> 
+        {{ dieData.value }}
     </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
     components: {
     },
     props: {
-        dieData: String
+        dieData: Object
     },
     data() {
         return {
@@ -31,5 +31,10 @@ export default {
     height: 80px;
     width: 80px;
     border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 800;
 }
 </style>

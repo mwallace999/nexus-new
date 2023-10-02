@@ -93,7 +93,18 @@ const store = createStore({
         fetchHexById: (state) => (hexId) => state.board.flat().find(hex => hex.id === hexId),
         playerStyles: (state) => state.playerStyles,
         setup: (state) => state.setup,
-        enemyHex: (state) => state.enemyHex
+        enemyHex: (state) => state.enemyHex,
+        fetchDiceByHexId: (state, getters) => (hexId) => {
+            const colorArray = getters.fetchTokenByHexId(hexId)?.tokenLevelArray;
+            const valueArray = colorArray ? Array(colorArray.length).fill('?') : [];
+            const diceArray = colorArray?.map((level, i) => {
+                return {
+                    color: level,
+                    value: valueArray[i]
+                }
+            })
+            return diceArray
+        },
     },
     mutations: {
         setBoard(state, board) {
@@ -217,6 +228,9 @@ const store = createStore({
         handleActionClick({ commit }, action) {
             if (action === 'DRAW') commit('drawLevel');
             commit('setAction', action);
+        },
+        rollDice() {
+            console.log('ROLLING DICE!!!!');
         }
     },
    

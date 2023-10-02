@@ -1,8 +1,9 @@
 <template>
     <div> 
         Dice Roller
-        <dice-row :dice-data="enemyDiceData"></dice-row>
-        <dice-row :dice-data="playerDiceData"></dice-row>
+        <button @click="rollDice" class="custom-button"> ROLL </button>
+        <dice-row :dice-data="fetchDiceByHexId(this.enemyHex)"></dice-row>
+        <dice-row :dice-data="fetchDiceByHexId(this.activeHex)"></dice-row>
     </div>
 </template>
 
@@ -19,15 +20,22 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'enemyHex', 'fetchTokenByHexId']),
-        playerDiceData() { return this.fetchTokenByHexId(this.activeHex)?.tokenLevelArray; },
-        enemyDiceData() { return this.fetchTokenByHexId(this.enemyHex)?.tokenLevelArray; }
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId']),
     },
     methods: {
-        ...mapActions([]),
+        ...mapActions(['rollDice']),
     }
 };
 </script>
 
 <style scoped>
+.custom-button {
+  background-color: gray;
+  color: white;
+  padding: 3px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 5px;
+}
 </style>
