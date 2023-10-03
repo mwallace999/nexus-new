@@ -1,28 +1,24 @@
 <template>
         <div class="table-top">
             <div class="header border"></div>
-            <div class="border">
-                <player-info-layout></player-info-layout>
-            </div>
-            <div class="center border">
-                <board-layout></board-layout>
-            </div>
-            <div class="border">
-                <token-info-layout></token-info-layout>
-            </div>
+
+            <div class="border"><player-info-layout></player-info-layout></div>
+            <div class="center border"><board-layout></board-layout></div>
+            <div class="border"><token-info-layout></token-info-layout></div>
+
             <div class="border"></div>
             <div class="border"></div>
-            <div class="border"></div>
-            
+            <div class="border"></div>   
         </div>
+        // DIALOGS
         <dice-layout v-if="enemyHex"></dice-layout>
 </template>
 
 <script>
-import BoardLayout from '../board/BoardLayout.vue';
-import TokenInfoLayout from '../token-info/TokenInfoLayout.vue';
+import BoardLayout from './board/BoardLayout.vue'; 
+import TokenInfoLayout from './token-info/TokenInfoLayout.vue';
 import DiceLayout  from '../dice/DiceLayout.vue';
-import PlayerInfoLayout from '../player-info/PlayerInfoLayout'
+import PlayerInfoLayout from './player-info/PlayerInfoLayout'
 import { mapGetters } from 'vuex';
 
 
