@@ -28,4 +28,8 @@ body {
     text-align: center;
     height: inherit;
 }
+.v-dialog {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
 </style>
+
