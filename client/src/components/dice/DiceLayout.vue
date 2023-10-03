@@ -1,5 +1,5 @@
 <template>
-    <v-dialog class="dice-container" v-model="fixedTrue"> 
+    <v-dialog class="dice-container" v-model="fixedTrue" @click:outside="setRollResult"> 
         Dice Roller
         <button @click="rollDice" class="custom-button"> ROLL </button>
         <dice-row :dice-data="fetchDiceByHexId(this.enemyHex)"></dice-row>
@@ -9,7 +9,7 @@
 
 <script>
 import DiceRow from './DiceRow.vue'
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { VDialog } from 'vuetify/lib/components/VDialog';
 
 export default {
@@ -27,6 +27,7 @@ export default {
     },
     methods: {
         ...mapActions(['rollDice']),
+        ...mapMutations(['setRollResult'])
     }
 };
 </script>

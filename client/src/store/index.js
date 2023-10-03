@@ -79,7 +79,7 @@ const store = createStore({
             colors: ['red', 'green', 'blue'],
             layout: [3, 4, 5, 4, 3]
         },
-        rollResult: null
+        rollResult: null  // {hexId1: [3, 4, 5, 2], hexId2: [3, 4, 5, 2]}
     },
     getters: {
         board: (state) => {
