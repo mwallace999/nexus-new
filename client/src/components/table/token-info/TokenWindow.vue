@@ -1,6 +1,5 @@
 <template>
-    <div class="token-window">
-    </div>
+    <div class="token-window"></div>
 </template>
 
 <script>
@@ -12,14 +11,6 @@ export default {
         };
     },
     computed: {
-       thisPlayer: {
-            get() {
-                return this.$store.state.thisPlayer; // Get the value from Vuex
-            },
-            set(value) {
-                this.$store.commit('setThisPlayer', value); // Update the value in Vuex
-            },
-        },
     },
     methods: {
     },
