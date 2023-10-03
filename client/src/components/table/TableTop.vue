@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import BoardLayout from '../board/BoardLayout.vue';
-import TokenInfoLayout from '../token-info/TokenInfoLayout.vue';
+import BoardLayout from './board/BoardLayout.vue'; 
+import TokenInfoLayout from './token-info/TokenInfoLayout.vue';
 import DiceLayout  from '../dice/DiceLayout.vue';
-import PlayerInfoLayout from '../player-info/PlayerInfoLayout'
+import PlayerInfoLayout from './player-info/PlayerInfoLayout'
 import { mapGetters } from 'vuex';
 
 
