@@ -234,7 +234,7 @@ const store = createStore({
         rollDice({ commit, state, getters }) {
             console.log('ROLLING DICE!!!!');
             const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
-            const enemyColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
+            const enemyColorArray = getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
             const result = {
                 [state.activeHex]: playerColorArray ? playerColorArray.map(() => Math.ceil(Math.random() * 6)) : null,
                 [state.enemyHex]: enemyColorArray ? enemyColorArray.map(() => Math.ceil(Math.random() * 6)) : null
