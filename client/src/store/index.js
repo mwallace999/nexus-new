@@ -79,6 +79,7 @@ const store = createStore({
             colors: ['red', 'green', 'blue'],
             layout: [3, 4, 5, 4, 3]
         },
+        activeModal: null, // 'diceRoller'
         rollResult: null  // {hexId1: [3, 4, 5, 2], hexId2: [3, 4, 5, 2]}
     },
     getters: {
@@ -106,6 +107,7 @@ const store = createStore({
             })
             return diceArray
         },
+        activeModal: (state) => state.activeModal
     },
     mutations: {
         setBoard(state, board) {
@@ -124,6 +126,9 @@ const store = createStore({
         setRollResult(state, result) {
             state.rollResult = result;
         },
+        setActiveModal(state, activeModal) {
+            state.activeModal = activeModal;
+        },
         drawLevel(state) {
             console.log('DRAW LEVEL');
             const activeHex = this.getters.fetchHexById(state.activeHex);
@@ -131,7 +136,6 @@ const store = createStore({
 
             const levelColor = activeHex.hexColor;
             if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.unshift(levelColor); 
-            socket.emit('syncBoardState', { tokens: state.tokens, board: state.board, enemyHex: state.enemyHex, activeHex: state.activeHex}); 
         },
         // ON HEX CLICK
         setActiveHex(state, hexId) {
@@ -149,7 +153,6 @@ const store = createStore({
             activeHexToken.hexId = hexId;
             targetHex.hexBorderColor = state.playerStyles[state.thisPlayer].color;
             state.activeHex = hexId;
-            // socket.emit('syncBoardState', { tokens: state.tokens, board: state.board,  enemyHex: state.enemyHex, activeHex: state.activeHex });
         },
         mergeTokens(state, hexId) {
             console.log('MERGE TOKENS');
@@ -160,7 +163,6 @@ const store = createStore({
             targetHexToken.tokenLevelArray = activeHexToken.tokenLevelArray.concat(targetHexToken.tokenLevelArray).slice(-targetHexToken.tokenLevel);
             state.tokens = state.tokens.filter(token => token.hexId !== state.activeHex);
             state.activeHex = hexId;
-            // socket.emit('syncBoardState', { tokens: state.tokens, board: state.board, enemyHex: state.enemyHex, activeHex: state.activeHex });
         },
         addToken(state, hexId) {
             console.log('SUMMON TOKEN');
@@ -175,7 +177,6 @@ const store = createStore({
                 tokenStatusArray: []
             }
             state.tokens.push(newToken);
-            // socket.emit('syncBoardState', { tokens: state.tokens, board: state.board, enemyHex: state.enemyHex, activeHex: state.activeHex });
         }
     },  
     actions: {
@@ -188,16 +189,20 @@ const store = createStore({
                 commit('setEnemyHex', enemyHex);
                 commit('setActiveHex', activeHex);
             });
-            socket.on('newGame', (board) => {
-                console.log('NEW GAME');
-                commit('setBoard', board);
-                commit('setTokens', []);
-                commit('setAction');
-                commit('setActiveHex');
-            })
+            // socket.on('newGame', (board) => {
+            //     console.log('NEW GAME');
+            //     commit('setBoard', board);
+            //     commit('setTokens', []);
+            //     commit('setAction');
+            //     commit('setActiveHex');
+            // })
             socket.on('rollResult', (result) => {
                 console.log('SYNCING ROLL RESULT');
                 commit('setRollResult', result);
+            })
+            socket.on('activeModal', (activeModal) => {
+                console.log('SYNCING ACTIVE MODAL');
+                commit('setActiveModal', activeModal);
             })
         },
         handleHexClick({ commit, state }, hexId) {
@@ -221,7 +226,11 @@ const store = createStore({
                 // If token on target is...
                 else {
                     // Enemy? Attack
-                    if (targetHexToken.tokenPlayer !== state.thisPlayer) commit('setEnemyHex', hexId);
+                    if (targetHexToken.tokenPlayer !== state.thisPlayer) {
+                        commit('setEnemyHex', hexId);
+                        commit('setActiveModal', 'diceRoller');
+                        socket.emit('syncActiveModal', 'diceRoller');
+                    }
                     // Yours? Merge
                     else commit('mergeTokens', hexId);
                 }
@@ -236,8 +245,11 @@ const store = createStore({
                 activeHex: state.activeHex
             });
         },
-        handleActionClick({ commit }, action) {
-            if (action === 'DRAW') commit('drawLevel');
+        handleActionClick({ commit, state }, action) {
+            if (action === 'DRAW') {
+                commit('drawLevel');
+                socket.emit('syncBoardState', { tokens: state.tokens, board: state.board, enemyHex: state.enemyHex, activeHex: state.activeHex}); 
+            }
             commit('setAction', action);
         },
         rollDice({ commit, state, getters }) {
@@ -250,7 +262,17 @@ const store = createStore({
             }
             commit('setRollResult', result)
             socket.emit('syncRollResult', result);
+        },
+        resetDice({ commit }) {
+            commit('setRollResult')
+            socket.emit('syncRollResult');
+        },
+        syncActiveModal({ commit }, activeModal) {
+            console.log('SYNCING ACTIVE MODAL', activeModal)
+            commit('setActiveModal', activeModal);
+            socket.emit('syncActiveModal', activeModal);
         }
+
     },
    
 });

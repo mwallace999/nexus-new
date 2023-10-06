@@ -32,7 +32,13 @@ io.on('connection', (socket) => {
     socket.on('syncNewGame', (setup) => {
         const board = createBoard(setup);
         const userRoom = getRoom(socket)
-        io.to(userRoom).emit('newGame', board);
+        const boardState = {
+            tokens: [],
+            board,
+            activeHex: null,
+            enemyHex: null
+        }
+        io.to(userRoom).emit('boardState', boardState);
     });
 
     socket.on('syncBoardState', (boardState) => {
@@ -45,6 +51,12 @@ io.on('connection', (socket) => {
         const userRoom = getRoom(socket);
         console.log(`SYNCING ROLL RESULT: ${userRoom}`);
         io.to(userRoom).emit('rollResult', rollResult);
+    })
+
+    socket.on('syncActiveModal', (activeModal) => {
+        const userRoom = getRoom(socket);
+        console.log(`SYNCING ACTIVE MODAL: ${userRoom}`);
+        io.to(userRoom).emit('activeModal', activeModal);
     })
     
 });

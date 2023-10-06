@@ -12,7 +12,7 @@
         <div class="border"></div>   
     </div>
     <!-- DIALOGS -->
-    <dice-layout v-if="enemyHex"></dice-layout>
+    <dice-layout v-if="activeModal === 'diceRoller'"></dice-layout>
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId']),
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId', 'activeModal']),
     },
     methods: {
     },
