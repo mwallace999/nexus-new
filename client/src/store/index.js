@@ -213,6 +213,10 @@ const store = createStore({
                 console.log('SYNCING CURRENT PLAYER');
                 commit('setCurrentPlayer', nextPlayer);
             })
+            socket.on('thisPlayer', (thisPlayer) => {
+                console.log('SETTING THIS PLAYER');
+                commit('setThisPlayer', thisPlayer);
+            })
         },
         handleHexClick({ commit, state }, hexId) {
             // console.log(`HEX ${hexId} CLICKED`);
