@@ -1,16 +1,26 @@
 <template>
     <div class="player-window">
+        <div>
+            <button @click="newGame" class="custom-button"> NEW GAME </button>
+        </div>
+        THIS PLAYER:
         <select v-model.number="thisPlayer" :items="[1, 2]">
             <option value="1">Player 1</option>
             <option value="2">Player 2</option>
         </select>
         <div>
-            <button @click="newGame" class="custom-button"> NEW GAME </button>
+            CURRENT PLAYER: {{ currentPlayer }}
+        </div>
+
+        <div>
+            <button @click="onEndTurn" class="custom-button" style="background-color: blue;"> END TURN </button>
         </div>
     </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
     components: {
     },
@@ -19,14 +29,19 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(['currentPlayer']),
        thisPlayer: {
             get() { return this.$store.state.thisPlayer; }, // Get the value from Vuex
             set(value) { this.$store.commit('setThisPlayer', value); } // Update the value in Vuex
         },
     },
     methods: {
+        ...mapActions(['endTurn', 'syncNewGame']),
         newGame() {
-            this.$socket.emit('syncNewGame', this.$store.state.setup);
+            this.syncNewGame();
+        },
+        onEndTurn() {
+            this.endTurn();
         }
     },
 };

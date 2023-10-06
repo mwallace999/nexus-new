@@ -58,6 +58,12 @@ io.on('connection', (socket) => {
         console.log(`SYNCING ACTIVE MODAL: ${userRoom}`);
         io.to(userRoom).emit('activeModal', activeModal);
     })
+
+    socket.on('syncCurrentPlayer', (nextPlayer) => {
+        const userRoom = getRoom(socket);
+        console.log(`SYNCING CURRENT PLAYER: ${userRoom}`);
+        io.to(userRoom).emit('currentPlayer', nextPlayer);
+    })
     
 });
 

@@ -129,6 +129,9 @@ const store = createStore({
         setActiveModal(state, activeModal) {
             state.activeModal = activeModal;
         },
+        setCurrentPlayer(state, currentPlayer) {
+            state.currentPlayer = currentPlayer
+        },
         drawLevel(state) {
             console.log('DRAW LEVEL');
             const activeHex = this.getters.fetchHexById(state.activeHex);
@@ -204,6 +207,10 @@ const store = createStore({
                 console.log('SYNCING ACTIVE MODAL');
                 commit('setActiveModal', activeModal);
             })
+            socket.on('currentPlayer', (nextPlayer) => {
+                console.log('SYNCING CURRENT PLAYER');
+                commit('setCurrentPlayer', nextPlayer);
+            })
         },
         handleHexClick({ commit, state }, hexId) {
             // console.log(`HEX ${hexId} CLICKED`);
@@ -212,7 +219,9 @@ const store = createStore({
 
             // HANDLE SUMMON NEW TOKEN
             if (state.currentAction === 'SUMMON') {    
-                if (!this.getters.fetchTokenByHexId(hexId)) commit('addToken', hexId);
+                if (!this.getters.fetchTokenByHexId(hexId)) {
+                    commit('addToken', hexId);
+                }
             } 
             // If clicked hex is enemy hex, de-select enemy
             else if (hexId === state.enemyHex) {
@@ -236,7 +245,9 @@ const store = createStore({
                 }
             } else {
                 hexId = hexId === state.activeHex ? null : hexId;
-                if (targetHexToken?.tokenPlayer === state.thisPlayer) commit('setActiveHex', hexId);
+                if (targetHexToken?.tokenPlayer === state.thisPlayer) {
+                    commit('setActiveHex', hexId);
+                }
             }
             socket.emit('syncBoardState', { 
                 tokens: state.tokens, 
@@ -271,6 +282,20 @@ const store = createStore({
             console.log('SYNCING ACTIVE MODAL', activeModal)
             commit('setActiveModal', activeModal);
             socket.emit('syncActiveModal', activeModal);
+        },
+        endTurn({ commit, getters, state }) {
+            const nextPlayer = getters.currentPlayer === 1 ? 2 : 1; // Handle multiplayer?
+            commit('setCurrentPlayer', nextPlayer);
+            socket.emit('syncCurrentPlayer', nextPlayer);
+            socket.emit('syncBoardState', { 
+                tokens: state.tokens, 
+                board: state.board, 
+                enemyHex: null,
+                activeHex: null
+            });
+        },
+        syncNewGame({state}) {
+            socket.emit('syncNewGame', state.setup);
         }
 
     },
