@@ -107,7 +107,9 @@ const store = createStore({
             })
             return diceArray
         },
-        activeModal: (state) => state.activeModal
+        activeModal: (state) => state.activeModal,
+        thisPlayer: (state) => state.thisPlayer,
+        isCurrentPlayer: (state) => state.thisPlayer === state.currentPlayer
     },
     mutations: {
         setBoard(state, board) {

@@ -1,9 +1,10 @@
 <template>
     <v-dialog class="dice-container" v-model="fixedTrue" @click:outside="closeDialog"> 
-        Dice Roller
+        ENEMY
+        <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? enemyHex : activeHex)"></dice-row>
+        <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? activeHex : enemyHex)"></dice-row>
+        PLAYER
         <button @click="rollDice" class="custom-button"> ROLL </button>
-        <dice-row :dice-data="fetchDiceByHexId(this.enemyHex)"></dice-row>
-        <dice-row :dice-data="fetchDiceByHexId(this.activeHex)"></dice-row>
     </v-dialog>
 </template>
 
@@ -23,7 +24,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId']),
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId', 'isCurrentPlayer']),
     },
     methods: {
         ...mapActions(['rollDice', 'syncActiveModal', 'resetDice']),
@@ -50,7 +51,8 @@ export default {
     background-color: white;
     height: 600px;
     width: 800px;
-    border: 5px solid black;
+    border: 4px solid black;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
