@@ -18,21 +18,22 @@ const getRoom = (socket) => Array.from(socket.rooms)[1];
 
 // SOCKET.IO HANDLING
 io.on('connection', (socket) => {
-    const index = dataStore.rooms.findIndex((room) => room.length < 2);
+    const rooms = dataStore.rooms
+    const index = rooms.findIndex((room) => room.length < 2);
     let room, playerNumber;
 
     if (index !== -1) {
-        playerNumber = dataStore.rooms[index][0] && dataStore.rooms[index][0].playerNumber === 1 ? 2 : 1;
+        playerNumber = rooms[index][0] && rooms[index][0].playerNumber === 1 ? 2 : 1;
         room = index + 1;
-        dataStore.rooms[index].push({
+        rooms[index].push({
             socket: socket.id,
             roomName: `Room ${room}`,
             playerNumber
         });      
     } else {
         playerNumber = 1;
-        room = dataStore.rooms.length + 1;
-        dataStore.rooms.push([{
+        room = rooms.length + 1;
+        rooms.push([{
             socket: socket.id,
             roomName: `Room ${room}`,
             playerNumber
@@ -42,22 +43,22 @@ io.on('connection', (socket) => {
     dataStore.users.push(socket.id);
     socket.join(room);
     console.log(`A user connected to Room ${room}`);
-    console.log('ROOMS', dataStore.rooms);
+    console.log('ROOMS', rooms);
     // Emit PlayerNumber to sync client
     io.to(socket.id).emit('thisPlayer', playerNumber);
 
     socket.on('disconnect', () => {
         dataStore.users = dataStore.users.filter((user) => user !== socket.id);
 
-        dataStore.rooms.forEach((room, index) => {
+        rooms.forEach((room, index) => {
             const itemIndex = room.findIndex((client) => client.socket === socket.id);
             if (itemIndex !== -1) {
                 room.splice(itemIndex, 1);
-                if (room.length === 0) dataStore.users.splice(index, 1);
+                if (room.length === 0) rooms.splice(index, 1);
             }
          });
         console.log('A user disconnected');
-        console.log('ROOMS', dataStore.rooms);
+        console.log('ROOMS', rooms);
     });
 
     socket.on('syncNewGame', (setup) => {
