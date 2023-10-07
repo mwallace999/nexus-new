@@ -4,7 +4,7 @@
         <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout
                 v-if="hexData.tokenPlayer"
-                :hex-data="hexData"
+                :token-data="hexData"
             />
         </div>
         </div>

@@ -2,8 +2,8 @@
   <div
     :class="{
         'token': true,
-        'active': this.activeHex === hexData.id,
-        'enemy': this.enemyHex === hexData.id,
+        'active': this.activeHex === tokenData.id,
+        'enemy': this.enemyHex === tokenData.id,
     }" 
     :style="{
         background: tokenLevelGradient,
@@ -15,8 +15,8 @@
         :class="{
             'inner-token': true,
             'inner-hover-border': !tokenLevel,
-            'active': !tokenLevel && this.activeHex === hexData.id,
-            'enemy': !tokenLevel && this.enemyHex === hexData.id
+            'active': !tokenLevel && this.activeHex === tokenData.id,
+            'enemy': !tokenLevel && this.enemyHex === tokenData.id
         }"
         :style="{
             backgroundColor: playerColor,
@@ -36,7 +36,7 @@ import { mapGetters } from 'vuex';
 
 export default {
     props: {
-        hexData: Object
+        tokenData: Object
     },
     data() {
         return {
@@ -44,10 +44,10 @@ export default {
     },
     computed: {
         ...mapGetters(['activeHex', 'enemyHex', 'playerStyles']),
-        tokenPlayer() { return this.hexData.tokenPlayer },
-        tokenLevelArray() { return this.hexData.tokenLevelArray },
-        tokenLevel() { return this.hexData.tokenLevel },
-        tokenStatus() { return this.hexData.tokenStatus },
+        tokenPlayer() { return this.tokenData.tokenPlayer },
+        tokenLevelArray() { return this.tokenData.tokenLevelArray },
+        tokenLevel() { return this.tokenData.tokenLevel },
+        tokenStatus() { return this.tokenData.tokenStatus },
         showLevels() { return this.tokenLevel ? 'visible' : 'hidden'},
         playerColor() { return this.playerStyles[this.tokenPlayer].color },
         playerColorHighlight() { return this.playerStyles[this.tokenPlayer].highlightColor },

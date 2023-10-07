@@ -1,6 +1,6 @@
 <template>
     <div class="token-window">
-        <token-layout v-if="hexData" :hex-data="hexData" class="token-scale"></token-layout>
+        <token-layout v-if="tokenData" :token-data="tokenData" class="token-scale"></token-layout>
     </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
         TokenLayout
     },
     props: {
-      hexData: Object
+      tokenData: Object
     },
     data() {
         return {
