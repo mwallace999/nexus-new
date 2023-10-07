@@ -1,6 +1,6 @@
 <template>
-    <div v-if="activeHex" class="token-info-layout">
-        <token-window></token-window>
+    <div v-if="isCurrentPlayer && activeHex" class="token-info-layout">
+        <token-window :hex-data="hexData"></token-window>
         <token-actions></token-actions>
     </div>
 </template>
@@ -20,7 +20,8 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex'])
+        ...mapGetters(['activeHex', 'fetchTokenByHexId', 'isCurrentPlayer']),
+        hexData() { return this.activeHex ? this.fetchTokenByHexId(this.activeHex) : null },
     },
     methods: {
     },

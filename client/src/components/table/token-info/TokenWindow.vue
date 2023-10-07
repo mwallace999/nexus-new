@@ -5,20 +5,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import TokenLayout from '../board/TokenLayout.vue'
 
 export default {
     components: {
         TokenLayout
     },
+    props: {
+      hexData: Object
+    },
     data() {
         return {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'fetchTokenByHexId']),
-        hexData() { return this.activeHex ? this.fetchTokenByHexId(this.activeHex) : null }
     },
     methods: {
     },
