@@ -12,7 +12,6 @@
 import HexLayout from './HexLayout.vue';
 import { mapGetters, mapActions } from 'vuex';
 
-
 export default {
     components: {
         HexLayout

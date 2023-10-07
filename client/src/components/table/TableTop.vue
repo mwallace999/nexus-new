@@ -4,8 +4,8 @@
         <div class="header border"></div>
 
         <div class="border"><player-info-layout></player-info-layout></div>
-        <div class="center border"><board-layout></board-layout></div>
-        <div class="border"><token-info-layout></token-info-layout></div>
+        <div class="center border gray"><board-layout></board-layout></div>
+        <div class="border gray"><token-info-layout></token-info-layout></div>
 
         <div class="border"></div>
         <div class="border"></div>
@@ -57,11 +57,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: gray;
     padding: 10px;
 }
 .border {
     border:  solid black 2px;
     border-radius: 5px;
+}
+.gray {
+    background-color: gray;
 }
 </style>
