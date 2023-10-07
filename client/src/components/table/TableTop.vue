@@ -1,6 +1,6 @@
 <template>
     <!-- TABLE -->
-    <div class="table-top">
+    <div :class="{ 'table-top': true, 'disable-mouse': !isCurrentPlayer }">
         <div class="header border"></div>
 
         <div class="border"><player-info-layout></player-info-layout></div>
@@ -34,7 +34,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId', 'activeModal']),
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId', 'activeModal', 'isCurrentPlayer']),
     },
     methods: {
     },
@@ -65,5 +65,8 @@ export default {
 }
 .gray {
     background-color: gray;
+}
+.disable-mouse {
+    pointer-events: none;
 }
 </style>

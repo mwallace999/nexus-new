@@ -1,7 +1,7 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { createBoard } from './controller/board.js'
+import { createBoard } from './controller/board.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -9,7 +9,7 @@ const io = new Server(server);
 
 // DATA STORE
 const dataStore = {
-    rooms: [],
+    rooms: []
 }
 
 // HELPER FUNCTIONS
@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
         room = index + 1;
         rooms[index].push({
             socket: socket.id,
-            roomName: `Room ${room}`,
+            room,
             playerNumber
         });      
     } else {
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
         room = rooms.length + 1;
         rooms.push([{
             socket: socket.id,
-            roomName: `Room ${room}`,
+            room,
             playerNumber
         }]);    
     }
