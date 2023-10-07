@@ -1,7 +1,7 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { createBoard } from './controller/board'
+import { createBoard } from './controller/board.js'
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +22,7 @@ io.on('connection', (socket) => {
     let room, playerNumber;
 
     if (index !== -1) {
-        playerNumber = rooms[index][0] && rooms[index][0].playerNumber === 1 ? 2 : 1;
+        playerNumber = rooms[index][0]?.playerNumber === 1 ? 2 : 1;
         room = index + 1;
         rooms[index].push({
             socket: socket.id,
