@@ -74,25 +74,25 @@ io.on('connection', (socket) => {
 
     socket.on('syncBoardState', (boardState) => {
         const userRoom = getRoom(socket);
-        console.log(`SYNCING BOARD STATE: ${userRoom}`);
+        console.log(`SYNCING BOARD STATE: Room ${userRoom}`);
         io.to(userRoom).emit('boardState', boardState);
     })
 
     socket.on('syncRollResult', (rollResult) => {
         const userRoom = getRoom(socket);
-        console.log(`SYNCING ROLL RESULT: ${userRoom}`);
+        console.log(`SYNCING ROLL RESULT: Room ${userRoom}`);
         io.to(userRoom).emit('rollResult', rollResult);
     })
 
     socket.on('syncActiveModal', (activeModal) => {
         const userRoom = getRoom(socket);
-        console.log(`SYNCING ACTIVE MODAL: ${userRoom}`);
+        console.log(`SYNCING ACTIVE MODAL: Room ${userRoom}`);
         io.to(userRoom).emit('activeModal', activeModal);
     })
 
     socket.on('syncCurrentPlayer', (nextPlayer) => {
         const userRoom = getRoom(socket);
-        console.log(`SYNCING CURRENT PLAYER: ${userRoom}`);
+        console.log(`SYNCING CURRENT PLAYER: Room ${userRoom}`);
         io.to(userRoom).emit('currentPlayer', nextPlayer);
     })
     
