@@ -44,10 +44,10 @@ export default {
 
 @keyframes scaleAnimation {
   from {
-    transform: scale(1);
+    transform: scale(0)
   }
   to {
-    transform: scale(2.5);
+    transform: scale(2.5)
   }
 }
 
