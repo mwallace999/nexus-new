@@ -9,7 +9,6 @@ const io = new Server(server);
 
 // DATA STORE
 const dataStore = {
-    users: [],
     rooms: [],
 }
 
@@ -40,7 +39,6 @@ io.on('connection', (socket) => {
         }]);    
     }
 
-    dataStore.users.push(socket.id);
     socket.join(room);
     console.log(`A user connected to Room ${room}`);
     console.log('ROOMS', rooms);
@@ -48,8 +46,6 @@ io.on('connection', (socket) => {
     io.to(socket.id).emit('thisPlayer', playerNumber);
 
     socket.on('disconnect', () => {
-        dataStore.users = dataStore.users.filter((user) => user !== socket.id);
-
         rooms.forEach((room, index) => {
             const itemIndex = room.findIndex((client) => client.socket === socket.id);
             if (itemIndex !== -1) {

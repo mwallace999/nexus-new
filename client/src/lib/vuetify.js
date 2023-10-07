@@ -1,4 +1,3 @@
 import { createVuetify } from 'vuetify';
 
-export default createVuetify({
-});
+export default createVuetify({});

@@ -11,8 +11,6 @@
 <script>
 import HexLayout from './HexLayout.vue';
 import { mapGetters, mapActions } from 'vuex';
-// import socket from '../../lib/socket';
-// import staticBoard from '../lib/staticBoard'
 
 
 export default {

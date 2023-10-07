@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import socket from '../lib/socket';
-// import staticBoard from '../lib/staticBoard';
 
 function invertBoard(board) {
     return board.map(row => row.reverse()).reverse();
@@ -80,12 +79,11 @@ const store = createStore({
             layout: [3, 4, 5, 4, 3]
         },
         activeModal: null, // 'diceRoller'
-        rollResult: null  // {hexId1: [3, 4, 5, 2], hexId2: [3, 4, 5, 2]}
+        rollResult: null  // {hexId1: [3, 4, 5, 2], hexId2: [1, 6, 6]}
     },
     getters: {
         board: (state) => {
             const boardState = state.board.map(row => row.map(hex => { return {...hex, ...state.tokens.find(token => token.hexId === hex.id)}}));
-            // console.log('BOARD STATE', boardState)
             return  state.thisPlayer === 1 ? boardState : invertBoard(boardState);
         },
         currentPlayer: (state) => state.currentPlayer,
@@ -194,29 +192,22 @@ const store = createStore({
                 commit('setEnemyHex', enemyHex);
                 commit('setActiveHex', activeHex);
             });
-            // socket.on('newGame', (board) => {
-            //     console.log('NEW GAME');
-            //     commit('setBoard', board);
-            //     commit('setTokens', []);
-            //     commit('setAction');
-            //     commit('setActiveHex');
-            // })
             socket.on('rollResult', (result) => {
                 console.log('SYNCING ROLL RESULT');
                 commit('setRollResult', result);
-            })
+            });
             socket.on('activeModal', (activeModal) => {
                 console.log('SYNCING ACTIVE MODAL');
                 commit('setActiveModal', activeModal);
-            })
+            });
             socket.on('currentPlayer', (nextPlayer) => {
                 console.log('SYNCING CURRENT PLAYER');
                 commit('setCurrentPlayer', nextPlayer);
-            })
+            });
             socket.on('thisPlayer', (thisPlayer) => {
                 console.log('SETTING THIS PLAYER');
                 commit('setThisPlayer', thisPlayer);
-            })
+            });
         },
         handleHexClick({ commit, state }, hexId) {
             // console.log(`HEX ${hexId} CLICKED`);
@@ -233,6 +224,7 @@ const store = createStore({
             else if (hexId === state.enemyHex) {
                 commit('setEnemyHex');
             }
+
             // CORE HANDLING: MOVE, ATTACK, MERGE, SET-ACTIVE-HEX
             // If active hex has token, and clicked hex is not active hex...
             else if (activeHexToken && hexId !== state.activeHex) {
@@ -265,7 +257,12 @@ const store = createStore({
         handleActionClick({ commit, state }, action) {
             if (action === 'DRAW') {
                 commit('drawLevel');
-                socket.emit('syncBoardState', { tokens: state.tokens, board: state.board, enemyHex: state.enemyHex, activeHex: state.activeHex}); 
+                socket.emit('syncBoardState', { 
+                    tokens: state.tokens,
+                    board: state.board,
+                    enemyHex: state.enemyHex,
+                    activeHex: state.activeHex
+                }); 
             }
             commit('setAction', action);
         },
@@ -277,7 +274,7 @@ const store = createStore({
                 [state.activeHex]: playerColorArray ? playerColorArray.map(() => Math.ceil(Math.random() * 6)) : null,
                 [state.enemyHex]: enemyColorArray ? enemyColorArray.map(() => Math.ceil(Math.random() * 6)) : null
             }
-            commit('setRollResult', result)
+            commit('setRollResult', result);
             socket.emit('syncRollResult', result);
         },
         resetDice({ commit }) {
