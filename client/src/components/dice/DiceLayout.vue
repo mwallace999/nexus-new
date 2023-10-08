@@ -4,7 +4,7 @@
         <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? enemyHex : activeHex)"></dice-row>
         <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? activeHex : enemyHex)"></dice-row>
         PLAYER
-        <button @click="rollDice" class="custom-button"> ROLL </button>
+        <button v-if="isCurrentPlayer" @click="rollDice" class="custom-button"> ROLL </button>
     </v-dialog>
 </template>
 
