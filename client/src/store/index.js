@@ -96,14 +96,21 @@ const store = createStore({
         rollResult: (state) => state.rollResult,
         enemyHex: (state) => state.enemyHex,
         fetchDiceByHexId: (state, getters) => (hexId) => {
-            const colorArray = getters.fetchTokenByHexId(hexId)?.tokenLevelArray;
-            const diceArray = colorArray?.map((level, i) => {
-                return {
-                    color: level,
-                    value: state.rollResult?.[hexId]?.[i] || '?'
-                }
-            })
-            return diceArray
+            const tokenInfo = getters.fetchTokenByHexId(hexId);
+            if (tokenInfo) {
+                const playerColor = state.playerStyles[tokenInfo.tokenPlayer].color;
+                const colorArray = [...getters.fetchTokenByHexId(hexId)?.tokenLevelArray];
+                colorArray.unshift(playerColor)
+                const diceArray = colorArray?.map((level, i) => {
+                    return {
+                        color: level,
+                        value: state.rollResult?.[hexId]?.[i] || '?'
+                    }
+                })
+                return diceArray
+            } else {
+                return [];
+            }
         },
         activeModal: (state) => state.activeModal,
         thisPlayer: (state) => state.thisPlayer,
@@ -136,9 +143,11 @@ const store = createStore({
             console.log('DRAW LEVEL');
             const activeHex = this.getters.fetchHexById(state.activeHex);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
-
             const levelColor = activeHex.hexColor;
-            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) activeHexToken.tokenLevelArray.unshift(levelColor); 
+            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel || activeHexToken.tokenLevel === 0) {
+                if (activeHexToken.tokenLevel === 0) activeHexToken.tokenLevel = 1;
+                activeHexToken.tokenLevelArray.unshift(levelColor);
+            }
         },
         // ON HEX CLICK
         setActiveHex(state, hexId) {
@@ -176,7 +185,7 @@ const store = createStore({
                 tokenPlayer: state.thisPlayer,
                 hexId,
                 tokenLevelArray: [],
-                tokenLevel: 1,
+                tokenLevel: 0,
                 tokenStatusArray: []
             }
             state.tokens.push(newToken);
@@ -269,10 +278,10 @@ const store = createStore({
         rollDice({ commit, state, getters }) {
             console.log('ROLLING DICE!!!!');
             const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
-            const enemyColorArray = getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
+            const enemyColorArray =  getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
             const result = {
-                [state.activeHex]: playerColorArray ? playerColorArray.map(() => Math.ceil(Math.random() * 6)) : null,
-                [state.enemyHex]: enemyColorArray ? enemyColorArray.map(() => Math.ceil(Math.random() * 6)) : null
+                [state.activeHex]: Array.from({ length: playerColorArray.length + 1 }, () => Math.ceil(Math.random() * 6)),
+                [state.enemyHex]: Array.from({ length: enemyColorArray.length + 1 }, () => Math.ceil(Math.random() * 6))
             }
             commit('setRollResult', result);
             socket.emit('syncRollResult', result);

@@ -1,5 +1,5 @@
 <template>
-    <div class="die" :style="{'background-color': dieData.color}"> 
+    <div class="die" :style="dieStyle"> 
         {{ dieData.value }}
     </div>
 </template>
@@ -18,7 +18,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([])
+        ...mapGetters([]),
+        dieStyle() {
+            const textColor = ['white'].includes(this.dieData.color) ? 'black' : 'white' ;
+            return {
+                'background-color': this.dieData.color,
+                'color': textColor,
+                'border-color': textColor
+            };
+        }
     },
     methods: {
         ...mapActions([]),
