@@ -46,7 +46,7 @@ export default {
         ...mapGetters(['activeHex', 'enemyHex', 'playerStyles']),
         tokenPlayer() { return this.tokenData.tokenPlayer },
         tokenLevelArray() { return this.tokenData.tokenLevelArray },
-        tokenLevel() { return this.tokenData.tokenLevel },
+        tokenLevel() { return this.tokenData.tokenLevel ? this.tokenData.tokenLevel : ''},
         tokenStatus() { return this.tokenData.tokenStatus },
         showLevels() { return this.tokenLevel ? 'visible' : 'hidden'},
         playerColor() { return this.playerStyles[this.tokenPlayer].color },

@@ -144,7 +144,7 @@ const store = createStore({
             const activeHex = this.getters.fetchHexById(state.activeHex);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
             const levelColor = activeHex.hexColor;
-            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel || activeHexToken.tokenLevel === 0) {
+            if (activeHexToken.tokenLevelArray.length < activeHexToken.tokenLevel) {
                 if (activeHexToken.tokenLevel === 0) activeHexToken.tokenLevel = 1;
                 activeHexToken.tokenLevelArray.unshift(levelColor);
             }
@@ -170,8 +170,11 @@ const store = createStore({
             console.log('MERGE TOKENS');
             const targetHexToken = this.getters.fetchTokenByHexId(hexId);
             const activeHexToken = this.getters.fetchTokenByHexId(state.activeHex);
- 
+
+            if (targetHexToken.tokenLevel === 0 || activeHexToken.tokenLevel === 0) targetHexToken.tokenLevel++;
+
             targetHexToken.tokenLevel =  Math.min(targetHexToken.tokenLevel + activeHexToken.tokenLevel, 6);
+
             targetHexToken.tokenLevelArray = activeHexToken.tokenLevelArray.concat(targetHexToken.tokenLevelArray).slice(-targetHexToken.tokenLevel);
             state.tokens = state.tokens.filter(token => token.hexId !== state.activeHex);
             state.activeHex = hexId;
