@@ -50,12 +50,12 @@ export default {
     background-color: gray;
 }
 .custom-button {
-  background-color: rgb(225, 14, 14);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 5px;
+    background-color: rgb(225, 14, 14);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
 }
 </style>

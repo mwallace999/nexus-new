@@ -34,26 +34,26 @@ export default {
     justify-content: center;
 }
 .custom-button {
-  background-color: rgb(225, 14, 14);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    background-color: rgb(225, 14, 14);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 @keyframes scaleAnimation {
-  from {
-    transform: scale(0)
-  }
-  to {
-    transform: scale(2.5)
-  }
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(2.5)
+    }
 }
 
 .token-scale {
-  transform: scale(1);
-  animation: scaleAnimation 0.3s forwards;
+    transform: scale(1);
+    animation: scaleAnimation 0.3s forwards;
 }
 
 </style>

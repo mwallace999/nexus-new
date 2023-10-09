@@ -1,34 +1,34 @@
 <template>
-  <div
-    :class="{
-        'token': true,
-        'active': this.activeHex === tokenData.id,
-        'enemy': this.enemyHex === tokenData.id,
-    }" 
-    :style="{
-        background: tokenLevelGradient,
-        visibility: showLevels,
-        borderColor: playerColorHighlight
-    }"
-  >
     <div
         :class="{
-            'inner-token': true,
-            'inner-hover-border': !tokenLevel,
-            'active': !tokenLevel && this.activeHex === tokenData.id,
-            'enemy': !tokenLevel && this.enemyHex === tokenData.id
-        }"
+            'token': true,
+            'active': this.activeHex === tokenData.id,
+            'enemy': this.enemyHex === tokenData.id,
+        }" 
         :style="{
-            backgroundColor: playerColor,
-            visibility: 'visible',
+            background: tokenLevelGradient,
+            visibility: showLevels,
             borderColor: playerColorHighlight
         }"
     >
-        <h1 :style="{ color: playerColorHighlight}">
-            {{ tokenLevel }}
-        </h1>
-    </div>    
-  </div>
+        <div
+            :class="{
+                'inner-token': true,
+                'inner-hover-border': !tokenLevel,
+                'active': !tokenLevel && this.activeHex === tokenData.id,
+                'enemy': !tokenLevel && this.enemyHex === tokenData.id
+            }"
+            :style="{
+                backgroundColor: playerColor,
+                visibility: 'visible',
+                borderColor: playerColorHighlight
+            }"
+        >
+            <h1 :style="{ color: playerColorHighlight}">
+                {{ tokenLevel }}
+            </h1>
+        </div>    
+    </div>
 </template>
 
 <script>
@@ -102,24 +102,24 @@ export default {
 }
 
 @keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0px var(--pulse-color);
-  }
-  50% {
-    box-shadow: 0 0 0 4px var(--pulse-color);
-  }
-  100% {
-    box-shadow: 0 0 0 0px var(--pulse-color);
-  }
+    0% {
+        box-shadow: 0 0 0 0px var(--pulse-color);
+    }
+    50% {
+        box-shadow: 0 0 0 4px var(--pulse-color);
+    }
+    100% {
+        box-shadow: 0 0 0 0px var(--pulse-color);
+    }
 }
 
 .active {
-  --pulse-color:  #00ff48;
-  animation: pulse 1s infinite;
+    --pulse-color:  #00ff48;
+    animation: pulse 1s infinite;
 }
 
 .enemy {
-  --pulse-color: #ffc800;
-  animation: pulse 1s infinite;
+    --pulse-color: #ffc800;
+    animation: pulse 1s infinite;
 }
 </style>
