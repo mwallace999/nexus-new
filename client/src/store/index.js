@@ -79,7 +79,7 @@ const store = createStore({
             layout: [3, 4, 5, 4, 3]
         },
         activeModal: null, // 'diceRoller'
-        rollResult: null  // {hexId1: [3, 4, 5, 2], hexId2: [1, 6, 6]}
+        rollResult: null  // { activeHexId: [3, 4, 5, 2], enemyHexId: [1, 6, 6] }
     },
     getters: {
         board: (state) => {
@@ -280,14 +280,35 @@ const store = createStore({
         },
         rollDice({ commit, state, getters }) {
             console.log('ROLLING DICE!!!!');
-            const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
-            const enemyColorArray =  getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
-            const result = {
-                [state.activeHex]: Array.from({ length: playerColorArray.length + 1 }, () => Math.ceil(Math.random() * 6)),
-                [state.enemyHex]: Array.from({ length: enemyColorArray.length + 1 }, () => Math.ceil(Math.random() * 6))
+
+            const rolling = () => {
+                const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
+                const enemyColorArray =  getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
+                const result = {
+                    [state.activeHex]: Array.from({ length: playerColorArray.length + 1 }, () => Math.ceil(Math.random() * 6)),
+                    [state.enemyHex]: Array.from({ length: enemyColorArray.length + 1 }, () => Math.ceil(Math.random() * 6))
+                }
+                commit('setRollResult', result);
+                socket.emit('syncRollResult', result);
             }
-            commit('setRollResult', result);
-            socket.emit('syncRollResult', result);
+
+            // UNCOMMMENT FOR ROLLING ANIMATION
+            // const per = 8; // Rolls per second
+            // const secs = 1.5; // Duration in seconds
+            // const interval = 1000 / per;
+            // let executionCount = 0;
+            // const startRoll = () => {
+            //     if (executionCount < per * secs) {
+            //         rolling();
+            //         executionCount++;
+            //         setTimeout(startRoll, interval);
+            //     }
+            // }
+
+            // startRoll();
+
+            rolling();
+
         },
         resetDice({ commit }) {
             commit('setRollResult')
