@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isCurrentPlayer && activeHex" class="token-info-layout">
+    <div v-if="isCurrentPlayer && activeHex || enemyHex" class="token-info-layout">
         <token-window :token-data="tokenData"></token-window>
         <token-actions></token-actions>
     </div>
@@ -20,8 +20,12 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['activeHex', 'fetchTokenByHexId', 'isCurrentPlayer']),
-        tokenData() { return this.activeHex ? this.fetchTokenByHexId(this.activeHex) : null },
+        ...mapGetters(['activeHex', 'enemyHex', 'fetchTokenByHexId', 'isCurrentPlayer']),
+        tokenData() {
+            if (this.isCurrentPlayer && this.activeHex) return  this.fetchTokenByHexId(this.activeHex);
+            else if (this.enemyHex) return this.fetchTokenByHexId(this.enemyHex);
+            return null;
+        },
     },
     methods: {
     },

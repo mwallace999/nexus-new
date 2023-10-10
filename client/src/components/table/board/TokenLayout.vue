@@ -3,7 +3,7 @@
         :class="{
             'token': true,
             'active': activeHex === tokenData.hexId && isAnimated,
-            'enemy': enemyHex === tokenData.hexId,
+            'enemy': enemyHex === tokenData.hexId && isAnimated,
         }" 
         :style="{
             background: tokenLevelGradient,
@@ -16,7 +16,7 @@
                 'inner-token': true,
                 'inner-hover-border': !tokenLevel,
                 'active': !tokenLevel && activeHex === tokenData.hexId && isAnimated,
-                'enemy': !tokenLevel && enemyHex === tokenData.hexId
+                'enemy': !tokenLevel && enemyHex === tokenData.hexId && isAnimated
             }"
             :style="{
                 backgroundColor: playerColor,
