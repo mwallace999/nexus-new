@@ -29,7 +29,7 @@ export function createBoard(setup) {
                     row: r,
                     index: i,
                     hexColor,
-                    hexStatusArray: [],
+                    hexStatusArray: ['hidden'],
                     hexBorderColor: null
                 })
             }

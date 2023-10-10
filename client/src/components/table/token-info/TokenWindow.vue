@@ -1,6 +1,8 @@
 <template>
     <div class="token-window">
-        <token-layout v-if="tokenData" :token-data="tokenData" class="token-scale"></token-layout>
+        <div class="token-scale">
+            <token-layout v-if="tokenData" :token-data="tokenData"></token-layout>
+        </div>
     </div>
 </template>
 
@@ -16,6 +18,7 @@ export default {
     },
     data() {
         return {
+            thing: true
         };
     },
     computed: {
@@ -54,6 +57,10 @@ export default {
 .token-scale {
     transform: scale(1);
     animation: scaleAnimation 0.3s forwards;
+}
+
+.no-pulse {
+    animation: none !important;
 }
 
 </style>

@@ -2,8 +2,8 @@
     <div
         :class="{
             'token': true,
-            'active': this.activeHex === tokenData.id,
-            'enemy': this.enemyHex === tokenData.id,
+            'active': activeHex === tokenData.hexId && isAnimated,
+            'enemy': enemyHex === tokenData.hexId,
         }" 
         :style="{
             background: tokenLevelGradient,
@@ -15,8 +15,8 @@
             :class="{
                 'inner-token': true,
                 'inner-hover-border': !tokenLevel,
-                'active': !tokenLevel && this.activeHex === tokenData.id,
-                'enemy': !tokenLevel && this.enemyHex === tokenData.id
+                'active': !tokenLevel && activeHex === tokenData.hexId && isAnimated,
+                'enemy': !tokenLevel && enemyHex === tokenData.hexId
             }"
             :style="{
                 backgroundColor: playerColor,
@@ -36,7 +36,8 @@ import { mapGetters } from 'vuex';
 
 export default {
     props: {
-        tokenData: Object
+        tokenData: Object,
+        isAnimated: Boolean
     },
     data() {
         return {

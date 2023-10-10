@@ -192,6 +192,15 @@ const store = createStore({
                 tokenStatusArray: []
             }
             state.tokens.push(newToken);
+        },
+        addHexClass(state, hexId, className) {
+            const targetHex = this.getters.fetchHexById(hexId);
+            targetHex.hexStatusArray.push(className);
+
+        },
+        removeHexClass(state,{ hexId, className }) {
+            const targetHex = this.getters.fetchHexById(hexId);
+            targetHex.hexStatusArray = targetHex.hexStatusArray.filter(item => item !== className);
         }
     },  
     actions: {
@@ -230,6 +239,7 @@ const store = createStore({
             if (state.currentAction === 'SUMMON') {    
                 if (!this.getters.fetchTokenByHexId(hexId)) {
                     commit('addToken', hexId);
+                    commit('removeHexClass', { hexId, className: 'hidden' })
                 }
             } 
             // If clicked hex is enemy hex, de-select enemy
@@ -241,7 +251,10 @@ const store = createStore({
             // If active hex has token, and clicked hex is not active hex...
             else if (activeHexToken && hexId !== state.activeHex) {
                 // ...and no token on target, then Move
-                if (!targetHexToken) commit('moveActiveHexToken', hexId);
+                if (!targetHexToken) {
+                    commit('moveActiveHexToken', hexId);
+                    commit('removeHexClass', { hexId, className: 'hidden' })
+                }
                 // If token on target is...
                 else {
                     // Enemy? Attack
@@ -257,6 +270,7 @@ const store = createStore({
                 hexId = hexId === state.activeHex ? null : hexId;
                 if (targetHexToken?.tokenPlayer === state.thisPlayer) {
                     commit('setActiveHex', hexId);
+                    commit('setEnemyHex');
                 }
             }
             socket.emit('syncBoardState', { 

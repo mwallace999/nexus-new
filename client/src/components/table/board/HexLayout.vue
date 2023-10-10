@@ -1,10 +1,11 @@
 <template>
     <div class="hexagon outer-border" @click="console.log('HEX CLICKED', hexData); handleHexClick(hexData.id)">
-        <div class="hexagon inner-border" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
-        <div class="hexagon inner-hex" :style="{ backgroundColor: hexData.hexColor }">
+        <div :class="['hexagon', 'inner-border', ...hexData.hexStatusArray]" :style="{ backgroundColor: hexData.hexBorderColor || hexData.hexColor}">
+        <div :class="['hexagon', 'inner-hex', ...hexData.hexStatusArray]" :style="{ backgroundColor: hexData.hexColor }">
             <token-layout
                 v-if="hexData.tokenPlayer"
                 :token-data="hexData"
+                :is-animated="true"
             />
         </div>
         </div>
@@ -59,5 +60,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.hidden {
+    background-color: rgb(64, 64, 64) !important;
 }
 </style>
