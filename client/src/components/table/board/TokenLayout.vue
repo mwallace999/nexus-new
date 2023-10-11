@@ -37,10 +37,16 @@ import { mapGetters } from 'vuex';
 export default {
     props: {
         tokenData: Object,
-        isAnimated: Boolean
+        isAnimated: Boolean,
+        selectedSlices: Array
     },
     data() {
         return {
+            colorMap: {
+                'red': '#520202',
+                'green': '#033c04',
+                'blue': '#06065c'
+            }
         };
     },
     computed: {
@@ -57,7 +63,8 @@ export default {
             for (let i = 0; i < 6; i++) {
                 const wedgeColor = () => {
                     if (i + 1 > this.tokenLevel) return 'gray';
-                    else return this.tokenLevelArray?.[i] || this.playerColor;
+                    else if (this.tokenLevelArray?.[i] && this.selectedSlices?.includes(i + 1)) return this.colorMap[this.tokenLevelArray?.[i]];
+                    else return this.tokenLevelArray?.[i] || this.playerColor;      
                 }
                 // Styling for each wedge of token
                 gradArray.push(`${wedgeColor()} ${i * 60}deg ${i * 60 + 55}deg`);

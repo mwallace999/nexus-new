@@ -1,8 +1,17 @@
 <template>
     <div class="token-window">
         <div class="token-scale">
-            <token-layout v-if="tokenData" :token-data="tokenData"></token-layout>
+            <token-layout v-if="tokenData" :token-data="tokenData" :selected-slices="selectedSlices"></token-layout>
         </div>
+        <ul class="circle" v-if="tokenData?.tokenLevel">
+            <li 
+                v-for="index in 6" 
+                :key="`slice${index}`"
+                :style="{ transform: 'rotate(' + (index * 60) + 'deg) skewY(-30deg)' }"
+                @click="sliceClick(index)"
+            >
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -18,12 +27,17 @@ export default {
     },
     data() {
         return {
-            thing: true
+            selectedSlices: []
         };
     },
     computed: {
     },
     methods: {
+        sliceClick(sliceId) {
+            if (!this.selectedSlices.includes(sliceId)) this.selectedSlices.push(sliceId);
+            else this.selectedSlices = this.selectedSlices.filter(slice => slice !== sliceId);
+            console.log('SELECTED SLICES:', this.selectedSlices)
+        }
     },
 };
 </script>
@@ -61,6 +75,26 @@ export default {
 
 .no-pulse {
     animation: none !important;
+}
+
+.circle {
+  position: absolute;
+  padding: 0;
+  width: 11em;
+  height: 11em;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: rotate(-60deg);
+}
+
+li {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 50%;
+  transform-origin: 0% 100%;
 }
 
 </style>
