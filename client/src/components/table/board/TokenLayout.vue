@@ -2,6 +2,7 @@
     <div
         :class="{
             'token': true,
+            'token-hover-border': isAnimated,
             'active': activeHex === tokenData.hexId && isAnimated,
             'enemy': enemyHex === tokenData.hexId && isAnimated,
         }" 
@@ -14,7 +15,7 @@
         <div
             :class="{
                 'inner-token': true,
-                'inner-hover-border': !tokenLevel,
+                'inner-hover-border': !tokenLevel && isAnimated,
                 'active': !tokenLevel && activeHex === tokenData.hexId && isAnimated,
                 'enemy': !tokenLevel && enemyHex === tokenData.hexId && isAnimated
             }"
@@ -92,9 +93,6 @@ export default {
     justify-content: center;
     align-items: center;
 }
-.token:hover {
-    box-shadow: 0 0 0px 4px yellow;
-}
 .inner-token {
     --innerTokenSize: 40px;
     width: var(--innerTokenSize);
@@ -105,10 +103,12 @@ export default {
     justify-content: center;
     align-items: center;
 }
+.token-hover-border:hover {
+    box-shadow: 0 0 0 4px yellow;
+}
 .inner-hover-border:hover {
     box-shadow: 0 0 0 4px yellow;
 }
-
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0px var(--pulse-color);
@@ -120,12 +120,10 @@ export default {
         box-shadow: 0 0 0 0px var(--pulse-color);
     }
 }
-
 .active {
     --pulse-color:  #00ff48;
     animation: pulse 1s infinite;
 }
-
 .enemy {
     --pulse-color: #ffc800;
     animation: pulse 1s infinite;
