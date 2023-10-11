@@ -92,6 +92,12 @@ io.on('connection', (socket) => {
         console.log(`SYNCING CURRENT PLAYER: Room ${userRoom}`);
         io.to(userRoom).emit('currentPlayer', nextPlayer);
     })
+
+    socket.on('syncRollFilter', (filterData) => {
+        const userRoom = getRoom(socket);
+        console.log(`SYNCING ROLL FILTER: Room ${userRoom}`);
+        io.to(userRoom).emit('rollFilter',filterData);
+    })
     
 });
 

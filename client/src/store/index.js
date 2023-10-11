@@ -79,7 +79,8 @@ const store = createStore({
             layout: [3, 4, 5, 4, 3]
         },
         activeModal: null, // 'diceRoller'
-        rollResult: null  // { activeHexId: [3, 4, 5, 2], enemyHexId: [1, 6, 6] }
+        rollResult: null,  // { activeHexId: [3, 4, 5, 2], enemyHexId: [1, 6, 6] }
+        rollFilter: null // { activeHexId: [1, 2, 3], enemyHexId: [1, 2] } <-- Array of indexes
     },
     getters: {
         board: (state) => {
@@ -94,12 +95,17 @@ const store = createStore({
         playerStyles: (state) => state.playerStyles,
         setup: (state) => state.setup,
         rollResult: (state) => state.rollResult,
+        rollFilter: (state) => state.rollFilter,
         enemyHex: (state) => state.enemyHex,
         fetchDiceByHexId: (state, getters) => (hexId) => {
             const tokenInfo = getters.fetchTokenByHexId(hexId);
             if (tokenInfo) {
                 const playerColor = state.playerStyles[tokenInfo.tokenPlayer].color;
-                const colorArray = [...getters.fetchTokenByHexId(hexId)?.tokenLevelArray];
+                let colorArray = [...getters.fetchTokenByHexId(hexId)?.tokenLevelArray];
+                // Apply filter for selected dice
+                const filter = state.rollFilter?.[hexId] || [];
+                // Add core die
+                colorArray = filter.map(index => colorArray[index]);
                 colorArray.unshift(playerColor)
                 const diceArray = colorArray?.map((level, i) => {
                     return {
@@ -193,14 +199,19 @@ const store = createStore({
             }
             state.tokens.push(newToken);
         },
-        addHexClass(state, hexId, className) {
+        addHexClass(state, { hexId, className }) {
             const targetHex = this.getters.fetchHexById(hexId);
             targetHex.hexStatusArray.push(className);
 
         },
-        removeHexClass(state,{ hexId, className }) {
+        removeHexClass(state, { hexId, className }) {
             const targetHex = this.getters.fetchHexById(hexId);
             targetHex.hexStatusArray = targetHex.hexStatusArray.filter(item => item !== className);
+        },
+        setRollFilter(state, filterData) {
+            // filterData = {[hexId]: [1, 2, 3]} <-- Array of indexes
+            if (!state.rollFilter || !filterData) state.rollFilter = filterData
+            else state.rollFilter = {...state.rollFilter, ...filterData};
         }
     },  
     actions: {
@@ -228,6 +239,10 @@ const store = createStore({
             socket.on('thisPlayer', (thisPlayer) => {
                 console.log('SETTING THIS PLAYER');
                 commit('setThisPlayer', thisPlayer);
+            });
+            socket.on('rollFilter', (filterData) => {
+                console.log('SETTING ROLL FILTER');
+                commit('setRollFilter', filterData);
             });
         },
         handleHexClick({ commit, state }, hexId) {
@@ -296,8 +311,12 @@ const store = createStore({
             console.log('ROLLING DICE!!!!');
 
             const rolling = () => {
-                const playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
-                const enemyColorArray =  getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
+                let playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
+                let enemyColorArray =  getters.fetchTokenByHexId(state.enemyHex)?.tokenLevelArray;
+                const playerFilter = state.rollFilter?.[state.activeHex] || [];
+                const enemyFilter = state.rollFilter?.[state.enemyHex] || [];
+                playerColorArray = playerFilter.map(index =>  playerColorArray[index]);
+                enemyColorArray = enemyFilter.map(index =>  enemyColorArray[index]);
                 const result = {
                     [state.activeHex]: Array.from({ length: playerColorArray.length + 1 }, () => Math.ceil(Math.random() * 6)),
                     [state.enemyHex]: Array.from({ length: enemyColorArray.length + 1 }, () => Math.ceil(Math.random() * 6))
@@ -346,8 +365,12 @@ const store = createStore({
         },
         syncNewGame({state}) {
             socket.emit('syncNewGame', state.setup);
+        },
+        syncRollFilter({ commit }, filterData) {
+            // filterData = {[hexId]: [1, 2, 3]}
+            commit('setRollFilter', filterData);
+            socket.emit('syncRollFilter', filterData);
         }
-
     },
    
 });

@@ -45,5 +45,6 @@ export default {
     align-items: center;
     font-size: 40px;
     font-weight: 800;
+    margin: 0 1%;
 }
 </style>

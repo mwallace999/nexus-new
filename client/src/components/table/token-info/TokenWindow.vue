@@ -1,14 +1,18 @@
 <template>
     <div class="token-window">
         <div class="token-scale">
-            <token-layout v-if="tokenData" :token-data="tokenData" :selected-slices="selectedSlices"></token-layout>
+            <token-layout
+                v-if="tokenData"
+                :token-data="tokenData"
+                :selected-slices="selectedSlices">
+            </token-layout>
         </div>
         <ul class="circle" v-if="tokenData?.tokenLevel">
             <li 
                 v-for="index in 6" 
                 :key="`slice${index}`"
                 :style="{ transform: 'rotate(' + (index * 60) + 'deg) skewY(-30deg)' }"
-                @click="sliceClick(index)"
+                @click="sliceClick(index - 1)"
             >
             </li>
         </ul>
@@ -17,6 +21,7 @@
 
 <script>
 import TokenLayout from '../board/TokenLayout.vue'
+import { mapActions } from 'vuex';
 
 export default {
     components: {
@@ -33,10 +38,11 @@ export default {
     computed: {
     },
     methods: {
+        ...mapActions(['syncRollFilter']),
         sliceClick(sliceId) {
-            if (!this.selectedSlices.includes(sliceId)) this.selectedSlices.push(sliceId);
+            if (!this.selectedSlices.includes(sliceId) && this.tokenData?.tokenLevelArray[sliceId]) this.selectedSlices.push(sliceId);
             else this.selectedSlices = this.selectedSlices.filter(slice => slice !== sliceId);
-            console.log('SELECTED SLICES:', this.selectedSlices)
+            this.syncRollFilter({[this.tokenData.hexId]: this.selectedSlices})
         }
     },
 };
@@ -49,14 +55,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.custom-button {
-    background-color: rgb(225, 14, 14);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
 @keyframes scaleAnimation {

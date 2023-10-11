@@ -63,7 +63,7 @@ export default {
             for (let i = 0; i < 6; i++) {
                 const wedgeColor = () => {
                     if (i + 1 > this.tokenLevel) return 'gray';
-                    else if (this.tokenLevelArray?.[i] && this.selectedSlices?.includes(i + 1)) return this.colorMap[this.tokenLevelArray?.[i]];
+                    else if (this.tokenLevelArray?.[i] && this.selectedSlices?.includes(i)) return this.colorMap[this.tokenLevelArray?.[i]];
                     else return this.tokenLevelArray?.[i] || this.playerColor;      
                 }
                 // Styling for each wedge of token
