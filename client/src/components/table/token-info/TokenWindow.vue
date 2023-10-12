@@ -7,7 +7,7 @@
                 :selected-slices="selectedSlices">
             </token-layout>
         </div>
-        <ul class="circle" v-if="tokenData?.tokenLevel">
+        <ul class="circle" v-if="tokenData?.tokenLevel && tokenData.tokenPlayer === thisPlayer">
             <li 
                 v-for="index in 6" 
                 :key="`slice${index}`"
@@ -21,7 +21,7 @@
 
 <script>
 import TokenLayout from '../board/TokenLayout.vue'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
@@ -36,13 +36,14 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(['thisPlayer']),
     },
     methods: {
         ...mapActions(['syncRollFilter']),
         sliceClick(sliceId) {
             if (!this.selectedSlices.includes(sliceId) && this.tokenData?.tokenLevelArray[sliceId]) this.selectedSlices.push(sliceId);
             else this.selectedSlices = this.selectedSlices.filter(slice => slice !== sliceId);
-            this.syncRollFilter({[this.tokenData.hexId]: this.selectedSlices})
+            this.syncRollFilter({[this.tokenData.hexId]: this.selectedSlices.sort()})
         }
     },
 };
@@ -93,6 +94,19 @@ li {
   width: 50%;
   height: 50%;
   transform-origin: 0% 100%;
+}
+
+.custom-button {
+    background-color: white;
+    color: black;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+    width: 100px;
+    position: absolute;
+    left: 10px;
 }
 
 </style>

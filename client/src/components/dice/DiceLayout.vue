@@ -1,5 +1,8 @@
 <template>
-    <v-dialog class="dice-container" v-model="fixedTrue" @click:outside="closeDialog"> 
+    <v-dialog class="dice-container" v-model="fixedTrue" @click:outside="closeDialog">
+        <div class="token-container">
+            <token-window :token-data="enemyTokenData"></token-window>
+        </div>
         ENEMY
         <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? enemyHex : activeHex)"></dice-row>
         <dice-row :dice-data="fetchDiceByHexId(isCurrentPlayer ? activeHex : enemyHex)"></dice-row>
@@ -31,11 +34,12 @@ export default {
     computed: {
         ...mapGetters(['activeHex', 'enemyHex', 'fetchDiceByHexId', 'isCurrentPlayer', 'fetchTokenByHexId']),
         tokenData() {
-            if (this.isCurrentPlayer && this.activeHex) return this.fetchTokenByHexId(this.activeHex);
-            else if (this.enemyHex) return this.fetchTokenByHexId(this.enemyHex);
-            return null;
+            return this.isCurrentPlayer ? this.fetchTokenByHexId(this.activeHex) : this.fetchTokenByHexId(this.enemyHex);
         },
-    },
+        enemyTokenData() {
+            return this.isCurrentPlayer ? this.fetchTokenByHexId(this.enemyHex) : this.fetchTokenByHexId(this.activeHex);
+        },
+     },
     methods: {
         ...mapActions(['rollDice', 'syncActiveModal', 'resetDice', 'syncRollFilter']),
         closeDialog() {
@@ -64,12 +68,14 @@ export default {
 }
 .dice-container {
     background-color: white;
-    height: 600px;
+    height: 800px;
     width: 800px;
     border: 4px solid black;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* 3D Table Styling  */
+    /* transform:perspective(2000px) rotateX(45deg) scale(1.2) translateY(-150px);*/ 
 }
 </style>
