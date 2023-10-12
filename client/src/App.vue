@@ -27,9 +27,11 @@ body {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     text-align: center;
     height: inherit;
+    cursor: pointer;
 }
 .v-dialog {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  cursor: pointer;
 }
 </style>
 
