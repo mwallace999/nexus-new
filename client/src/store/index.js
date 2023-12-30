@@ -308,7 +308,7 @@ const store = createStore({
             commit('setAction', action);
         },
         rollDice({ commit, state, getters }) {
-            console.log('ROLLING DICE!!!!');
+            console.log('ROLLING DICE!!!');
 
             const rolling = () => {
                 let playerColorArray = getters.fetchTokenByHexId(state.activeHex)?.tokenLevelArray;
